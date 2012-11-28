@@ -291,11 +291,11 @@ $db_dsn      = "pgsql:dbname=ykksm;host=127.0.0.1";
 == The End ==
 
 You now have a YK-KSM up and running.  You can test the service by
-requesting a URL.  Using curl, for example:
+requesting a URL.  Using wget, for example:
 
 {{{
-user@ksm:~$ sudo apt-get install curl
-user@ksm:~$ curl 'http://localhost/wsapi/decrypt?otp=dteffujehknhfjbrjnlnldnhcujvddbikngjrtgh'
+user@ksm:~$ sudo apt-get install wget
+user@ksm:~$ wget -q -O - 'http://localhost/wsapi/decrypt?otp=dteffujehknhfjbrjnlnldnhcujvddbikngjrtgh'
 ERR Unknown yubikey
 user@ksm:~$ 
 }}}
