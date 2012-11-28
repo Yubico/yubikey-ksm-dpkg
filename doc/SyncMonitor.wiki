@@ -13,6 +13,14 @@ and truncates the hash to 10 hex characters and prints them to stdout.
 The "important fields" are serial number, public name, internal name
 and AES key.
 
+Sample output looks like this, first there is a Unix time (for
+freshness) and then is the truncated hash value.
+
+{{{
+1284488221
+50f5649b80
+}}}
+
 The script requires the Perl SHA-1 package.  Install it like this:
 
 {{{
@@ -23,7 +31,10 @@ user@ksm:~$
 
 The typical way to use this is either manually or to run it in a cron
 job and output the hash to a file that can be downloaded by a remote
-monitor system such as Nagios.
+monitor system such as Nagios.  The intention is that you run a check
+that downloads this file from all of your KSMs, and the Nagios check
+verify that all values are 1) fresh (Unix time is not too old) and 2)
+that the truncated hash value is identical on all KSMs.
 
 {{{
 user@ksm:~$ sudo sh -c 'cat > /etc/cron.hourly/run-ykksm-checksum'
