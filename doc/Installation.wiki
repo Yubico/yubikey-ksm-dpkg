@@ -288,8 +288,10 @@ An example DSN for a PostgreSQL setup:
 $db_dsn      = "pgsql:dbname=ykksm;host=127.0.0.1";
 }}}
 
-You can test the service by requesting a URL.  Using curl, for
-example:
+== The End ==
+
+You now have a YK-KSM up and running.  You can test the service by
+requesting a URL.  Using curl, for example:
 
 {{{
 user@ksm:~$ sudo apt-get install curl
@@ -298,11 +300,7 @@ ERR Unknown yubikey
 user@ksm:~$ 
 }}}
 
-== The End ==
-
-You now have a YK-KSM up and running.  You will need to import keys
-into the database for the decrypt function to do anything useful.
-Likely next steps are [GenerateKSMKey], [GenerateKeys] and/or
-[ImportKeysToKSM].
-
-Also see [ServerHardening] on how to improve security of your system.
+You will need to import keys into the database for the decrypt
+function to do anything useful.  See [ServerHardening] on how to
+improve security of your system.  Likely next steps are
+[GenerateKSMKey], [GenerateKeys] and/or [ImportKeysToKSM].

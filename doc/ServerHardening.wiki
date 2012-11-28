@@ -35,6 +35,82 @@ uncommented:
 </Directory>
 }}}
 
+== Time synchronization ==
+
+For logging and (on the validation server) time-stamping it is
+important to have synchronized clocks.  Install ntp.
+
+{{{
+user@host:~$ sudo apt-get install ntp
+...
+}}}
+
+== Firewall ==
+
+There is no reason why the KSM needs to listen to incoming requests
+from the entire Internet, and restricting access to the intended
+YK-VAL servers are recommended.
+
+{{{
+user@ksm:~$ sudo sh -c 'cat > /etc/network/if-pre-up.d/iptables'
+#!/bin/sh
+iptables -F
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT ACCEPT
+iptables -A INPUT -i lo -p all -j ACCEPT
+iptables -A INPUT -i eth0 -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A INPUT -p tcp -i eth0 -s 1.2.3.4 --dport 22 -j ACCEPT
+iptables -A INPUT -p tcp -i eth0 -s 2.3.4.5 --dport 80 -j ACCEPT
+iptables -A INPUT -p tcp -i eth0 -s 2.3.4.5 --dport 443 -j ACCEPT
+user@ksm:~$ chmod +x /etc/network/if-pre-up.d/iptables
+user@ksm:~$ 
+}}}
+
+Replace 1.2.3.4 with the IP address of the host you want to be able to
+login from via SSH, and replace 2.3.4.5 with the IP address of the
+YK-VAL that will be accessing this YK-KSM.
+
+For a validation server, you may want to allow HTTP(S) requests from
+anyone, but not anything else.
+
+{{{
+user@val:~$ sudo sh -c 'cat > /etc/network/if-pre-up.d/iptables'
+#!/bin/sh
+iptables -F
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT ACCEPT
+iptables -A INPUT -i lo -p all -j ACCEPT
+iptables -A INPUT -i eth0 -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A INPUT -p tcp -i eth0 -s 1.2.3.4 --dport 22 -j ACCEPT
+iptables -A INPUT -p tcp -i eth0 --dport 80 -j ACCEPT
+iptables -A INPUT -p tcp -i eth0 --dport 443 -j ACCEPT
+user@ksm:~$ chmod +x /etc/network/if-pre-up.d/iptables
+user@ksm:~$ 
+}}}
+
+Again, replace 1.2.3.4 with the IP address of the host you want to be
+able to login from via SSH.
+
+If you want to allow SSH from everywhere, try this:
+
+{{{
+user@val:~$ sudo sh -c 'cat > /etc/network/if-pre-up.d/iptables'
+#!/bin/sh
+iptables -F
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT ACCEPT
+iptables -A INPUT -i lo -p all -j ACCEPT
+iptables -A INPUT -i eth0 -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A INPUT -p tcp -i eth0 --dport 22 -j ACCEPT
+iptables -A INPUT -p tcp -i eth0 --dport 80 -j ACCEPT
+iptables -A INPUT -p tcp -i eth0 --dport 443 -j ACCEPT
+user@ksm:~$ chmod +x /etc/network/if-pre-up.d/iptables
+user@val:~$ 
+}}}
+
 == Database encryption ==
 
 The database contains sensitive information.  If someone is able to
@@ -64,6 +140,48 @@ only put the swap on the encrypted volume too.  Make sure that the
 database does not start up automatically on boot, and also make sure
 that the system does not attempt to mount your encrypted partition
 automatically.
+
+Setup:
+
+{{{
+user@ksm:~$ sudo apt-get install loop-aes-utils loop-aes-modules-2.6-amd64
+...
+user@ksm:~$ sudo rmmod loop && sudo modprobe loop
+user@ksm:~$ sudo dd if=/dev/zero of=/root/ksm.img bs=1k count=1M
+...
+user@ksm:~$ sudo losetup -e AES128 /dev/loop0 /root/ksm.img 
+Password: 
+user@ksm:~$ sudo mkfs.ext2 -q /dev/loop0 
+user@ksm:~$ sudo mkdir /ksm
+user@ksm:~$ sudo mount /dev/loop0 /ksm
+user@ksm:~$ sudo /etc/init.d/postgresql-8.3 stop
+...
+user@ksm:~$ sudo update-rc.d -f postgresql-8.3 remove
+user@ksm:~$ sudo mv /var/lib/postgresql /ksm
+user@ksm:~$ sudo ln -s /ksm/postgresql /var/lib/postgresql
+user@ksm:~$ sudo sh -c 'cat > /usr/local/sbin/ykksm-start'
+#!/bin/sh
+set -e
+set -x
+losetup -e AES128 /dev/loop0 /root/ksm.img
+fsck /dev/loop0
+mount /dev/loop0  /ksm/
+/etc/init.d/postgresql-8.3 start
+user@ksm:~$ sudo sh -c 'cat > /usr/local/sbin/ykksm-stop'
+#!/bin/sh
+set -e
+set -x
+/etc/init.d/postgresql-8.3 stop
+umount /ksm
+losetup -d /dev/loop0
+user@ksm:~$ sudo chmod +x /usr/local/sbin/ykksm-{start,stop}
+}}}
+
+Then in the future, to start the YK-KSM, you will need to login to the
+machine and issue the command 'sudo ykksm-start' and enter the disk
+encryption password.
+
+Again, make sure that you don't use any unencrypted swap.
 
 == Intrusion detection ==
 
