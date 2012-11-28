@@ -1,0 +1,10 @@
+#summary Yubikey KSM Design Goals
+#labels Featured,Phase-Design
+
+= YK-KSM Design Goals =
+
+The YK-KSM component was designed for these objectives:
+
+ * Separate AES key storage (to a secure machine) from the validation server
+ * Allow distribution of AES keys to multiple servers for load-balancing and high-availability
+ * The code must be short and easy to audit

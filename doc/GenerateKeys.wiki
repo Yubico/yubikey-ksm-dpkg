@@ -1,0 +1,72 @@
+#summary Generating Keys
+#labels Featured,Phase-Deploy
+
+= Generate Keys =
+
+To generate some keys you use the 'ykksm-gen-keys.pl' tool.  The tool
+is useful for generating large sets of test keys, for performance
+testing of the database and web interface.  It can also be used to
+produce keying material that are intended to used for programming real
+keys.
+
+As you should never store encryption keys in plaintext, you typically
+use the tool by piping it directly to GnuPG.  Here is how you would
+generate 5 keys for test purposes:
+
+{{{
+lyra:~# ~/yubikey-ksm/ykksm-gen-keys.pl --urandom 1 5 | gpg -a --encrypt -r 1D2F473E -s > keys.txt
+lyra:~# 
+}}}
+
+Note the flag --urandom will cause the tool to use /dev/urandom rather
+than /dev/random, which speed things up but is considered by some to
+have weaker security.
+
+To display the keys, you can always decrypt them using GnuPG:
+
+{{{
+lyra:~# gpg < keys.txt 
+gpg: encrypted with 2048-bit ELG-E key, ID FAFE9F53, created 2009-02-16
+      "YubiKey KSM Test Key"
+# ykksm 1
+# serialnr,identity,internaluid,aeskey,lockpw,created,accessed[,progflags]
+1,cccccccccccb,4ac46996d6d2,8e2c9f67aa4d8e95fc79ba6199ed1ad6,f3049ca76c0e,2009-03-18T17:10:27,
+2,cccccccccccd,ed5d34918624,90ae87ff23d894092d5c259137c35efd,e744b461a7ed,2009-03-18T17:10:27,
+3,ccccccccccce,1d4d50f92a10,d74f10fd88aaef3ee3fc9d69e33e981f,98ea8b3cdf75,2009-03-18T17:10:27,
+4,cccccccccccf,5dfa6a7b8c17,791fba487f5b6d902477d377866de036,c65d398f61d0,2009-03-18T17:10:27,
+5,cccccccccccg,4af5343571fe,36099d7a9a7ce7adb3e52a4157f7eb7b,affc6fe70006,2009-03-18T17:10:27,
+gpg: Signature made Wed 18 Mar 2009 05:10:27 PM CET using DSA key ID 1D2F473E
+gpg: Good signature from "YubiKey KSM Test Key"
+lyra:~# 
+}}}
+
+The format is documented in the KeyProvisioningFormat wiki page.
+
+To generate many small files each containing just one key, you can use
+a small wrapper like this:
+
+{{{
+#!/bin/sh
+
+set -e
+
+start=$1
+stop=$2
+key=$3
+urandom=$4
+
+if test -z "$start" || test -z "$stop" || test -z "$key"; then
+    echo "Usage: run-gen-keys START STOP KEY [--urandom]"
+    echo ""
+    echo "Example usage:"
+    echo "  run-gen-keys 4711 11147 A1296239 --urandom"
+    echo ""
+    exit 0
+fi
+
+cur=$start
+while test $cur -le $stop; do
+    ykksm-gen-keys.pl $urandom $cur | gpg -a --sign --encrypt -r $key > $cur.asc
+    cur=`expr $cur + 1`
+done
+}}}

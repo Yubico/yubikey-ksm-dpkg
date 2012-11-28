@@ -1,0 +1,216 @@
+#summary Installation and configuration of Yubikey KSM
+#labels Featured,Phase-Deploy
+
+= Installation and configuration of Yubikey KSM =
+
+The Yubikey KSM module is responsible for storing AES keys and
+providing two interfaces:
+
+* Decrypting an OTP
+
+* Adding new AES keys
+
+It is intentionally not possible to extract the AES keys or to make
+modifications to the database content.
+
+== Installation ==
+
+This process applies to any GNU/Linux-like system, although it was
+written for Debian GNU/Linux.
+
+The first step is to install some necessary packages.
+
+{{{
+lyra:~# apt-get install apache2 php5 mysql-server php5-mysql php5-mcrypt
+}}}
+
+The installation asks you for a MySQL "root" password, and I recommend
+to specify one.  To avoid having to specify a password when using the
+'mysql' tool interactively, you can store the password in ~/.my.cnf,
+see /usr/share/doc/mysql-server-5.0/README.Debian.gz.  For example:
+
+{{{
+lyra:~# cat>.my.cnf
+[client]
+user = root
+password = YOURPASSWORD
+lyra:~# 
+}}}
+
+At this point you should download YK-KSM, or check out YK-KSM from its
+repository.  For example:
+
+{{{
+lyra:~# svn checkout http://yubikey-ksm.googlecode.com/svn/trunk/ yubikey-ksm
+A    yubikey-ksm/ykksm-db.sql
+A    yubikey-ksm/ykksm-import.pl
+A    yubikey-ksm/ykksm-utils.php
+A    yubikey-ksm/ykksm-config.php
+A    yubikey-ksm/ykksm-export.pl
+A    yubikey-ksm/ykksm-gen-keys.pl
+A    yubikey-ksm/.htaccess
+A    yubikey-ksm/ykksm-decrypt.php
+Checked out revision 52.
+lyra:~# 
+}}}
+
+The rest of this page will assume you have the YK-KSM installed in
+~/yubikey-ksm/.
+
+The database needs to be initialized as follows:
+
+{{{
+lyra:~/yubikey-ksm# mysql < ykksm-db.sql 
+lyra:~/yubikey-ksm# 
+}}}
+
+This will create a user 'ykksmreader' without a password, so you
+should set one.
+
+{{{
+lyra:~/yubikey-ksm# mysql ykksm
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 68
+Server version: 5.0.51a-24 (Debian)
+
+Type 'help;' or '\h' for help. Type '\c' to clear the buffer.
+
+mysql> SET PASSWORD FOR 'ykksmreader'@'localhost' = PASSWORD('yourpassword');
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> Bye
+lyra:~/yubikey-ksm# 
+}}}
+
+Tighten the security of the PHP installation by creating a file
+/etc/php5/conf.d/ykksm.ini with the following content:
+
+{{{
+display_errors = Off
+log_errors = On
+}}}
+
+At this point you may want to see [GenerateKeys] and [ImportKeysToKSM].
+
+== Logging ==
+
+The PHP interface uses syslog for logging of incoming requests.  The
+facility is set in ykksm-config.php but defaults the LOG_LOCAL0.  To
+place these messages in a separate file, you can add the following to
+/etc/syslog.conf, or if you use rsyslog, create a file
+/etc/rsyslog.d/ykksm.conf with this content:
+
+{{{
+local0.*                        -/var/log/ykksm.log
+}}}
+
+The '-' before the filename avoids syncing the file after each write,
+which is recommended for performance.
+
+Unfortunately, most default syslog configuration, including the
+syslog.conf configuration file on Debian, will also log all entries to
+/var/log/syslog and/or /var/log/messages.
+
+I am not aware of any way to avoid this without modifying these other
+rules.  To avoid YK-KSM log entries in these other files, you must
+modify the default rules.  For example, edit the following lines of
+/etc/rsyslog.conf (or /etc/syslog.conf if you don't use rsyslog):
+
+{{{
+*.*;auth,authpriv.none          -/var/log/syslog
+*.=info;*.=notice;*.=warn;\
+        auth,authpriv.none;\
+        cron,daemon.none;\
+        mail,news.none          -/var/log/messages
+}}}
+
+Change them into:
+
+{{{
+*.*;auth,authpriv.none,local0.none              -/var/log/syslog
+*.=info;*.=notice;*.=warn;\
+        auth,authpriv.none;\
+        cron,daemon.none;\
+	local0.none;\
+        mail,news.none          -/var/log/messages
+}}}
+
+The log file can grow large quickly, so it is a good idea to setup
+rotation of log files.  Here is an example that rotates the log file
+weekly.  Put this in /etc/logrotate.d/ykksm:
+
+{{{
+/var/log/ykksm.log {
+	weekly
+	missingok
+	rotate 9999
+	notifempty
+	postrotate
+		invoke-rc.d rsyslog reload > /dev/null
+        endscript
+}
+}}}
+
+== Decrypt OTP Interface ==
+
+The interface to decrypt OTPs is implemented using a PHP script.  You
+can place the script under any URL, but we recommend serving it as
+http://ykksm.example.org/wsapi/decrypt.  For example:
+
+{{{
+lyra:/var/www# mkdir wsapi
+lyra:/var/www# cd wsapi/
+lyra:/var/www/wsapi# ln -s /root/yubikey-ksm/ykksm-decrypt.php decrypt.php
+lyra:/var/www/wsapi# ln -s /root/yubikey-ksm/ykksm-utils.php 
+lyra:/var/www/wsapi# ln -s /root/yubikey-ksm/.htaccess 
+}}}
+
+You also need to add a ykksm-config.php script.  An example file is
+included in YK-KSM:
+
+{{{
+lyra:~# cat ~/yubikey-ksm/ykksm-config.php 
+<?php
+$dbhost   = "localhost";
+$dbname = "ykksm";
+$dbuser   = "ykksmreader";
+$dbpasswd = "password";
+$logfacility = LOG_LOCAL0;
+?>
+lyra:~# 
+}}}
+
+Typically you only need to modify the password.  Install the file at
+its appropriate place:
+
+{{{
+lyra:~# cat>/var/www/wsapi/ykksm-config.php 
+<?php
+$dbhost   = "localhost";
+$dbname = "ykksm";
+$dbuser   = "ykksmreader";
+$dbpasswd = "yourpassword";
+$logfacility = LOG_LOCAL0;
+?>
+lyra:~# 
+}}}
+
+You can test the service by requesting a URL.  Using curl, for
+example:
+
+{{{
+mensa:~# curl 'http://localhost/wsapi/decrypt?otp=dteffujehknhfjbrjnlnldnhcujvddbikngjrtgh'
+ERR Unknown yubikey
+mensa:~# 
+}}}
+
+Naturally, you will need to import keys into the database for the
+decrypt function to work properly.
+
+== Feedback ==
+
+If you want to discuss anything related to the Yubikey KSM module,
+please contact Simon Josefsson <simon@yubico.com>.
