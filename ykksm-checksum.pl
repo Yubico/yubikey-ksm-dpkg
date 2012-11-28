@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 # Written by Simon Josefsson <simon@josefsson.org>.
-# Copyright (c) 2009 Yubico AB
+# Copyright (c) 2010 Yubico AB
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -31,43 +31,41 @@
 use strict;
 use DBI;
 use POSIX qw(strftime);
+use Digest::SHA1;
 
 sub usage {
-    print "Usage: $0 [--help]\n";
+    print "Usage: $0 [--verbose] [--help]\n";
     print "          [--database DBI] [--db-user USER] [--db-passwd PASSWD]\n";
-    print "          [--creator CREATOR]\n";
     print "\n";
-    print "Tool to upgrade data in database based on special format.\n";
+    print "Print checksum of important database fields.  Useful for quickly\n";
+    print "determining whether several KSMs are in sync.\n";
     print "\n";
     print "  --database DBI: Database identifier, see http://dbi.perl.org/\n";
     print "                  defaults to a MySQL database ykksm on localhost,\n";
-    print "                  i.e., DBI::mysql:ykksm.\n";
+    print "                  i.e., dbi:mysql:ykksm.  For PostgreSQL on the local\n";
+    print "                  host you can use 'DBI:Pg:dbname=ykksm;host=127.0.0.1'.\n";
     print "\n";
     print "  --db-user USER: Database username to use, defaults to empty string.\n";
     print "\n";
     print "  --db-passwd PASSWD: Database password to use, defaults to empty string.\n";
     print "\n";
-    print "  --creator CREATOR: Short string with creator info.\n";
-    print "                     Defaults to using the PGP signer key id, normally.\n";
-    print "                     you don't change this.\n";
-    print "\n";
     print "Usage example:\n";
     print "\n";
-    print "  $0 < keys.txt\n";
+    print "  ./ykksm-checksum.pl --database dbi:mysql:ykksm --db-user user --db-passwd pencil\n";
     print "\n";
     exit 1;
 }
 
-my $creator;
+my $verbose = 0;
 my $db = "dbi:mysql:ykksm";
 my $dbuser;
 my $dbpasswd;
 while ($ARGV[0] =~ m/^-(.*)/) {
     my $cmd = shift @ARGV;
-    if (($cmd eq "-h") || ($cmd eq "--help")) {
+    if (($cmd eq "-v") || ($cmd eq "--verbose")) {
+	$verbose = 1;
+    } elsif (($cmd eq "-h") || ($cmd eq "--help")) {
 	usage();
-    } elsif ($cmd eq "--creator") {
-	$creator = shift;
     } elsif ($cmd eq "--database") {
 	$db = shift;
     } elsif ($cmd eq "--db-user") {
@@ -81,64 +79,36 @@ if ($#ARGV>=0) {
     usage();
 }
 
-my $infilename = "tmp.$$";
-my $verify_status;
-my $encrypted_to;
-my $signed_by;
-
-# Read input into temporary file.
-open TMPFILE, ">$infilename"
-    or die "Cannot open $infilename for writing";
-while (<>) {
-    print TMPFILE $_;
-}
-close TMPFILE;
-
-END { unlink $infilename; }
-
-# Get status
-open(GPGV, "gpg --status-fd 1 --output /dev/null < $infilename 2>&1 |")
-    or die "Cannot launch gpg";
-while (<GPGV>) {
-    $verify_status .= $_;
-    $encrypted_to = $1 if m,^\[GNUPG:\] ENC_TO ([0-9A-F]+) ,;
-    $signed_by = $1 if m,^\[GNUPG:\] VALIDSIG ([0-9A-F]+) ,;
-}
-close GPGV;
-
-print "Verification output:\n" . $verify_status;
-print "encrypted to: " . $encrypted_to . "\n";
-print "signed by: " . $signed_by . "\n";
-
-die "Input not signed?" if !$signed_by;
-
 my $dbh = DBI->connect($db, $dbuser, $dbpasswd, {'RaiseError' => 1});
-my $inserth = $dbh->prepare_cached(qq{
-INSERT INTO yubikeys (creator, created, serialnr,
-                      publicname, internalname, aeskey, lockcode)
-VALUES (?, NOW(), 0, ?, ?, ?, '000000000000')
-})
+my $sth = $dbh->prepare ('SELECT serialnr, publicname, internalname, aeskey '.
+			 'FROM yubikeys '.
+			 'ORDER BY publicname')
     or die "Couldn't prepare statement: " . $dbh->errstr;
+$sth->execute()
+    or die "Couldn't execute statement: " . $sth->errstr;
 
-$creator = $signed_by if !$creator;
+my $sha1 = Digest::SHA1->new;
 
-open(GPGV, "gpg < $infilename 2>/dev/null |")
-    or die "Cannot launch gpg";
-while (<GPGV>) {
-    next if m:^#:;
-    my ($publicname, $aeskey, $internalname) =
-	  m%^id ([cbdefghijklnrtuv]+) key ([0-9a-f]+) uid ([0-9a-f]+)%;
-    print "line: $_";
-    print "\tpublicname $publicname internalname $internalname aeskey $aeskey eol\n";
-
-    my $rows_changed = $dbh->do(q{UPDATE yubikeys SET publicname = ? WHERE publicname = ?}, undef, ("old-" . $publicname, $publicname))
-	or die "Cannot update database: " . $dbh->errstr;
-    
-    $inserth->execute($creator, $publicname, $internalname, $aeskey)
-	or die "Database insert error: " . $dbh->errstr;
+my $row;
+while ($row = $sth->fetchrow_hashref()) {
+    if ($verbose) {
+	print "# serialnr=" . $row->{'serialnr'} .
+	    " publicname=" . $row->{'publicname'} . "\n";
+    }
+    $sha1->add($row->{'serialnr'});
+    $sha1->add($row->{'publicname'});
+    $sha1->add($row->{'internalname'});
+    $sha1->add($row->{'aeskey'});
 }
 
-close GPGV;
+if ($sth->rows == 0) {
+    print "No data?!\n\n";
+    exit 1;
+}
+
+print substr ($sha1->hexdigest, 0, 10) . "\n";
+
+$sth->finish;
 $dbh->disconnect();
 
 exit 0;
