@@ -28,8 +28,8 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-include 'ykksm-config.php';
-include 'ykksm-utils.php';
+require_once 'ykksm-config.php';
+require_once 'ykksm-utils.php';
 
 openlog("ykksm", LOG_PID, $logfacility)
   or die("ERR Syslog open error\n");
@@ -55,8 +55,8 @@ try {
   die("ERR Database error\n");
 }
 
-$sql = "SELECT aesKey, internalName FROM yubikeys " .
-       "WHERE publicName = '$id' AND active";
+$sql = "SELECT aeskey, internalname FROM yubikeys " .
+       "WHERE publicname = '$id' AND active";
 $result = $dbh->query($sql);
 if (!$result) {
   syslog(LOG_ERR, "Database query error.  Query: " . $sql . " Error: " .
@@ -70,15 +70,15 @@ if ($result->rowCount() != 1) {
  }
 
 $row = $result->fetch(PDO::FETCH_ASSOC);
-$aesKey = $row['aesKey'];
-$internalName = $row['internalName'];
+$aeskey = $row['aeskey'];
+$internalname = $row['internalname'];
 
 $ciphertext = modhex2hex($modhex_ciphertext);
-$plaintext = aes128ecb_decrypt($aesKey, $ciphertext);
+$plaintext = aes128ecb_decrypt($aeskey, $ciphertext);
 
 $uid = substr($plaintext, 0, 12);
-if (strcmp($uid, $internalName) != 0) {
-  syslog(LOG_ERR, "UID error: $otp $plaintext: $uid vs $internalName");
+if (strcmp($uid, $internalname) != 0) {
+  syslog(LOG_ERR, "UID error: $otp $plaintext: $uid vs $internalname");
   die("ERR Corrupt OTP\n");;
  }
 
