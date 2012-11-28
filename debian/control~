@@ -1,0 +1,20 @@
+Source: yubikey-ksm
+Maintainer: Yubico Open Source Maintainers <ossmaint@yubico.com>
+Uploaders: Simon Josefsson <simon@josefsson.org>, Klas Lindfors <klas@yubico.com>, Dain Nilsson <dain@yubico.com>, Tommaso Galassi De Orchi <tom@yubico.com>
+Section: utils
+Priority: extra
+Build-Depends: debhelper (>= 7.0.50~)
+Standards-Version: 3.9.2
+
+Package: yubikey-ksm
+Architecture: all
+Depends: ${misc:Depends},
+	 apache2,
+	 php5,
+	 php5-mcrypt,
+	 mysql-server | postgresql,
+	 php5-mysql | php5-pgsql,
+	 dbconfig-common
+Recommends: mysql-client | postgresql-client
+Description: Yubikey KSM written in PHP
+ This is the authentication backend to yubikey-val-server-php.

@@ -1,0 +1,5 @@
+yubikey-ksm (1.5-1) unstable; urgency=low
+
+  * Initial package.
+
+ -- Simon Josefsson <simon@josefsson.org>  Wed, 28 Nov 2012 13:06:19 +0100

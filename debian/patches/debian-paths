@@ -1,0 +1,38 @@
+--- a/Makefile
++++ b/Makefile
+@@ -46,22 +46,22 @@
+ 
+ etcprefix = /etc/ykksm
+ binprefix = /usr/bin
+-phpprefix = /usr/share/ykksm
+-docprefix = /usr/share/doc/ykksm
++phpprefix = /usr/share/yubikey-ksm
++docprefix = /usr/share/doc/yubikey-ksm
+ wwwgroup = www-data
+ 
+ install:
+-	install -D .htaccess $(phpprefix)/.htaccess
+-	install -D ykksm-decrypt.php $(phpprefix)/ykksm-decrypt.php
+-	install -D ykksm-utils.php $(phpprefix)/ykksm-utils.php
+-	install -D ykksm-gen-keys.pl $(binprefix)/ykksm-gen-keys
+-	install -D ykksm-import.pl $(binprefix)/ykksm-import
+-	install -D ykksm-export.pl $(binprefix)/ykksm-export
+-	install -D ykksm-checksum.pl $(binprefix)/ykksm-checksum
+-	install -D --backup --mode 640 --group $(wwwgroup) ykksm-config.php $(etcprefix)/ykksm-config.php
+-	install -D ykksm-db.sql $(docprefix)/ykksm-db.sql
+-	install -D Makefile $(docprefix)/ykksm.mk
+-	install -D $(DOCS) $(docprefix)/
++	install -D .htaccess $(DESTDIR)$(phpprefix)/.htaccess
++	install -D ykksm-decrypt.php $(DESTDIR)$(phpprefix)/ykksm-decrypt.php
++	install -D ykksm-utils.php $(DESTDIR)$(phpprefix)/ykksm-utils.php
++	install -D ykksm-gen-keys.pl $(DESTDIR)$(binprefix)/ykksm-gen-keys
++	install -D ykksm-import.pl $(DESTDIR)$(binprefix)/ykksm-import
++	install -D ykksm-export.pl $(DESTDIR)$(binprefix)/ykksm-export
++	install -D ykksm-checksum.pl $(DESTDIR)$(binprefix)/ykksm-checksum
++	install -D --backup --mode 640 --group $(wwwgroup) ykksm-config.php $(DESTDIR)$(etcprefix)/ykksm-config.php
++	install -D ykksm-db.sql $(DESTDIR)$(docprefix)/ykksm-db.sql
++	install -D Makefile $(DESTDIR)$(docprefix)/ykksm.mk
++	install -D $(DOCS) $(DESTDIR)$(docprefix)/
+ 
+ wwwprefix = /var/www/wsapi
+ 

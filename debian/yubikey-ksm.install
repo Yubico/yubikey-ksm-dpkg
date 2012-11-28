@@ -1,0 +1,3 @@
+files/* /
+debian/conf/mysql /usr/share/dbconfig-common/data/yubikey-ksm/install/
+debian/conf/postgresql /usr/share/dbconfig-common/data/yubikey-ksm/install/

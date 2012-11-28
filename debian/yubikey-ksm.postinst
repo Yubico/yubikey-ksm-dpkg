@@ -1,0 +1,47 @@
+#!/bin/sh
+
+set -e
+
+. /usr/share/debconf/confmodule
+. /usr/share/dbconfig-common/dpkg/postinst
+
+php_cf="/etc/ykksm/config-db.php"
+
+# PHP include
+dbc_generate_include_owner="root:www-data"
+dbc_generate_include_perms="0640"
+dbc_generate_include=php:$php_cf
+dbc_go yubikey-ksm $@
+
+# Until dbconfig-common gets support for generating more than one include
+# file, we do it the hard way. (LP: #531722)
+(
+    echo "# yubikey-ksm database settings for perl scripts."
+    echo "#"
+    echo "# Generated from $php_cf by `basename $0`."
+    cat $php_cf | grep ^\\$ | sed -e 's/^/our /g'
+    echo "1;"
+) > /etc/ykksm/config-db.cfg
+
+a2enmod ssl
+a2enmod rewrite
+a2ensite yubikey-ksm yubikey-ksm-ssl
+
+for service in apache2 rsyslog; do
+    if [ -x /usr/sbin/invoke-rc.d ]; then
+	invoke-rc.d $service reload 3>/dev/null || true
+    else
+	/etc/init.d/$service reload 3>/dev/null || true
+    fi
+done
+
+if [ -r /etc/apache2/sites-enabled/000-default ]; then
+    echo "****************************************************************"
+    echo "* NOTE: You probably need to disable the Apache default site : *"
+    echo "*    $ sudo a2dissite default                                  *"
+    echo "****************************************************************"
+fi
+
+#DEBHELPER#
+
+exit 0

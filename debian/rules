@@ -1,0 +1,31 @@
+#!/usr/bin/make -f
+
+VCS_PATH="/home/ft/work/yubico/php/yubikey-ksm/trunk"
+VCS_REVISION="2.8"
+
+override_dh_auto_build:
+# There is no default 'make' target for this package
+
+git-clone: git-clone-stamp
+git-clone-stamp:
+	git clone $VCS_PATH $(CURDIR)/yubikey-ksm-git
+	(cd yubikey-ksm-git && \
+		git archive --prefix=yubikey-ksm/ $(VCS_REVISION) ) | tar xvf -
+	touch $@
+
+pre-build:: git-clone
+
+# Build architecture-dependent files here.
+binary-arch: install
+# We have nothing to do
+
+# Build architecture-independent files here.
+binary-indep: install
+	dh $@
+
+binary: binary-indep binary-arch
+
+.PHONY: binary-indep binary-arch binary build
+
+%:
+	dh $@

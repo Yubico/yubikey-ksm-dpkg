@@ -1,0 +1,19 @@
+This is an attempt to automate the installation instructions for
+yubikey-ksm as found here :
+
+  http://code.google.com/p/yubikey-ksm/wiki/Installation
+
+The original installation instructions detail creating two database
+users - one with read access and one for adding new yubikeys to the
+database. I've only automatted the read-only user, since I don't know
+how to create additional users with dbconfig-common and the other one
+is only used manually as per
+
+  http://code.google.com/p/yubikey-ksm/wiki/ImportKeysToKSM
+
+I've tested this package with MySQL only. If you install this on a
+dedicated machine that won't be serving any other sites using Apache
+you will need to disable the 'default' site manually.
+
+  $ sudo a2dissite default
+  $
