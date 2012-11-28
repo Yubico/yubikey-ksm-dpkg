@@ -6,9 +6,9 @@
 The Yubikey KSM module is responsible for storing AES keys and
 providing two interfaces:
 
-* Decrypting an OTP
+ * Decrypting an OTP
 
-* Adding new AES keys
+ * Adding new AES keys
 
 It is intentionally not possible to extract the AES keys or to make
 modifications to the database content.
@@ -18,7 +18,10 @@ modifications to the database content.
 This process applies to any GNU/Linux-like system, although it was
 written for Debian GNU/Linux.
 
-The first step is to install some necessary packages.
+The first step is to install some necessary packages.  Since version
+1.1 any database supported by the PHP PDO interface is supported by
+the YK-KSM.  To give concrete examples, we will here explain how to
+set it up using MySQL.
 
 {{{
 lyra:~# apt-get install apache2 php5 mysql-server php5-mysql php5-mcrypt
@@ -174,10 +177,10 @@ included in YK-KSM:
 {{{
 lyra:~# cat ~/yubikey-ksm/ykksm-config.php 
 <?php
-$dbhost   = "localhost";
-$dbname = "ykksm";
-$dbuser   = "ykksmreader";
-$dbpasswd = "password";
+$db_dsn      = "mysql:dbname=ykksm;host=127.0.0.1";
+$db_username = "ykksmreader";
+$db_password = "yourpassword";
+$db_options  = array();
 $logfacility = LOG_LOCAL0;
 ?>
 lyra:~# 
@@ -189,10 +192,10 @@ its appropriate place:
 {{{
 lyra:~# cat>/var/www/wsapi/ykksm-config.php 
 <?php
-$dbhost   = "localhost";
-$dbname = "ykksm";
-$dbuser   = "ykksmreader";
-$dbpasswd = "yourpassword";
+$db_dsn      = "mysql:dbname=ykksm;host=127.0.0.1";
+$db_username = "ykksmreader";
+$db_password = "yourpassword";
+$db_options  = array();
 $logfacility = LOG_LOCAL0;
 ?>
 lyra:~# 
