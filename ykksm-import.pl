@@ -41,7 +41,8 @@ sub usage {
     print "\n";
     print "  --database DBI: Database identifier, see http://dbi.perl.org/\n";
     print "                  defaults to a MySQL database ykksm on localhost,\n";
-    print "                  i.e., DBI::mysql:ykksm.\n";
+    print "                  i.e., dbi:mysql:ykksm.  For PostgreSQL on the local\n";
+    print "                  host you can use 'DBI:Pg:dbname=ykksm;host=127.0.0.1'.\n";
     print "\n";
     print "  --db-user USER: Database username to use, defaults to empty string.\n";
     print "\n";
@@ -105,7 +106,7 @@ open(GPGV, "gpg --status-fd 1 --output /dev/null < $infilename 2>&1 |")
 while (<GPGV>) {
     $verify_status .= $_;
     $encrypted_to = $1 if m,^\[GNUPG:\] ENC_TO ([0-9A-F]+) ,;
-    $signed_by = $1 if m,^\[GNUPG:\] VALIDSIG ([0-9A-F]+) ,;
+    $signed_by = $1 if m,^\[GNUPG:\] VALIDSIG [0-9A-F]+([0-9A-F]{8}) ,;
 }
 close GPGV;
 
@@ -117,8 +118,8 @@ die "Input not signed?" if !$signed_by;
 
 my $dbh = DBI->connect($db, $dbuser, $dbpasswd, {'RaiseError' => 1});
 my $inserth = $dbh->prepare_cached(qq{
-INSERT INTO yubikeys (creator, created, serialNr,
-                      publicName, internalName, aesKey, lockCode)
+INSERT INTO yubikeys (creator, created, serialnr,
+                      publicname, internalname, aeskey, lockcode)
 VALUES (?, ?, ?, ?, ?, ?, ?)
 });
 my $now = strftime "%Y-%m-%dT%H:%M:%S", localtime;
@@ -129,14 +130,14 @@ open(GPGV, "gpg < $infilename 2>/dev/null |")
     or die "Cannot launch gpg";
 while (<GPGV>) {
     next if m:^#:;
-    my ($serialNr, $publicName, $internalName, $aesKey,
-	$lockCode, $created, $accessed) =
+    my ($serialnr, $publicname, $internalname, $aeskey,
+	$lockcode, $created, $accessed) =
 	  m%^([0-9]+),([cbdefghijklnrtuv]+),([0-9a-f]+),([0-9a-f]+),([0-9a-f]+),([T:0-9 -]*),([T:0-9 -]*)%;
     if ($verbose) {
 	print "line: $_";
     }
-    print "\tserialnr $serialNr publicName $publicName " .
-	"internalName $internalName aesKey $aesKey lockCode $lockCode " .
+    print "\tserialnr $serialnr publicname $publicname " .
+	"internalname $internalname aeskey $aeskey lockcode $lockcode " .
 	"created $created accessed $accessed eol";
     if ($verbose) {
 	print "\n";
@@ -147,9 +148,9 @@ while (<GPGV>) {
     $created = $now if !$created;
     $accessed = "NULL" if !$accessed;
 
-    $inserth->execute($creator, $created, $serialNr,
-		      $publicName, $internalName,
-		      $aesKey, $lockCode)
+    $inserth->execute($creator, $created, $serialnr,
+		      $publicname, $internalname,
+		      $aeskey, $lockcode)
 	or die "Database insert error: " . $dbh->errstr;
 }
 print "\n";
