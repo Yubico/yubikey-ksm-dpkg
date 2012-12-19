@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 # Written by Simon Josefsson <simon@josefsson.org>.
-# Copyright (c) 2009 Yubico AB
+# Copyright (c) 2009-2012 Yubico AB
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -33,10 +33,9 @@ use DBI;
 use MIME::Base64;
 
 sub usage {
-    print "Usage: $0 [--verbose] [--help]\n";
-    print "          [--database DBI] [--db-user USER] [--db-passwd PASSWD]\n";
+    print "Usage: $0 [--verbose] [--help] [--database DBI] [--db-user USER] [--db-passwd PASSWD]\n";
     print "\n";
-    print "  Tool to export keys to the YKKSM-KEYPROV format.\n";
+    print "Tool to export keys to the YKKSM-KEYPROV format.\n";
     print "\n";
     print "  --database DBI: Database identifier, see http://dbi.perl.org/\n";
     print "                  defaults to a MySQL database ykksm on localhost,\n";
@@ -48,7 +47,7 @@ sub usage {
     print "\n";
     print "Usage example:\n";
     print "\n";
-    print "  ./ykksm-export.pl --db-user foo --db-passwd pass123 |\n";
+    print "  ./ykksm-export --db-user foo --db-passwd pass123 |\n";
     print "     gpg -a --sign --encrypt -r 1D2F473E > keys.txt\n";
     print "\n";
     exit 1;
