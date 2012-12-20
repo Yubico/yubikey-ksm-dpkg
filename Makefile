@@ -26,7 +26,7 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-VERSION = 1.6
+VERSION = 1.7
 PACKAGE = yubikey-ksm
 CODE = .htaccess Makefile NEWS ykksm-config.php ykksm-db.sql	\
 	ykksm-decrypt.php ykksm-export ykksm-gen-keys	\
@@ -52,18 +52,18 @@ phpprefix = /usr/share/ykksm
 docprefix = /usr/share/doc/ykksm
 wwwgroup = www-data
 
-install:
-	install -D .htaccess $(phpprefix)/.htaccess
-	install -D ykksm-decrypt.php $(phpprefix)/ykksm-decrypt.php
-	install -D ykksm-utils.php $(phpprefix)/ykksm-utils.php
-	install -D ykksm-gen-keys $(binprefix)/ykksm-gen-keys
-	install -D ykksm-import $(binprefix)/ykksm-import
-	install -D ykksm-export $(binprefix)/ykksm-export
-	install -D ykksm-checksum $(binprefix)/ykksm-checksum
-	install -D --backup --mode 640 --group $(wwwgroup) ykksm-config.php $(etcprefix)/ykksm-config.php
-	install -D ykksm-db.sql $(docprefix)/ykksm-db.sql
-	install -D Makefile $(docprefix)/ykksm.mk
-	install -D $(DOCS) $(docprefix)/
+install: $(MANS)
+	install -D --mode 640 .htaccess $(DESTDIR)$(phpprefix)/.htaccess
+	install -D --mode 640 ykksm-decrypt.php $(DESTDIR)$(phpprefix)/ykksm-decrypt.php
+	install -D --mode 640 ykksm-utils.php $(DESTDIR)$(phpprefix)/ykksm-utils.php
+	install -D ykksm-gen-keys $(DESTDIR)$(binprefix)/ykksm-gen-keys
+	install -D ykksm-import $(DESTDIR)$(binprefix)/ykksm-import
+	install -D ykksm-export $(DESTDIR)$(binprefix)/ykksm-export
+	install -D ykksm-checksum $(DESTDIR)$(binprefix)/ykksm-checksum
+	install -D --backup --mode 640 --group $(wwwgroup) ykksm-config.php $(DESTDIR)$(etcprefix)/ykksm-config.php
+	install -D ykksm-db.sql $(DESTDIR)$(docprefix)/ykksm-db.sql
+	install -D Makefile $(DESTDIR)$(docprefix)/ykksm.mk
+	install -D $(DOCS) $(DESTDIR)$(docprefix)/
 
 wwwprefix = /var/www/wsapi
 
@@ -86,7 +86,10 @@ $(PACKAGE)-$(VERSION).tgz: $(FILES) $(MANS)
 
 dist: $(PACKAGE)-$(VERSION).tgz
 
-clean: clean-man
+distclean: clean
+	rm -f *.1
+
+clean:
 	rm -f *~
 	rm -rf $(PACKAGE)-$(VERSION)
 
@@ -99,9 +102,6 @@ NAME_ykksm-import = 'Tool to import key data on the YKKSM-KEYPROV format.'
 	help2man -N --name=$(NAME_$*) --version-string=1 ./$* > $@
 
 man: $(MANS)
-
-clean-man:
-	rm -f *.1
 
 release: dist
 	@if test -z "$(KEYID)"; then \
@@ -117,3 +117,16 @@ release: dist
 	git tag -sm "$(PACKAGE)-$(VERSION)" $(PACKAGE)-$(VERSION)
 	git push
 	git push --tags
+
+	git add $(PACKAGE)-$(VERSION).tgz
+	git add $(PACKAGE)-$(VERSION).tgz.sig
+	git stash
+	git checkout gh-pages
+	git stash pop
+	git mv $(PACKAGE)-$(VERSION).tgz releases/
+	git mv $(PACKAGE)-$(VERSION).tgz.sig releases/
+	x=$$(ls -1 releases/*.tgz | awk -F\- '{print $$3}' | sed 's/.tgz//' | paste -sd ',' -);sed -i -e "2s/\[.*\]/[$$x]/" releases.html
+	git add releases.html
+	git commit -m "Added tarball for release $(VERSION)"
+	git push
+	git checkout master
