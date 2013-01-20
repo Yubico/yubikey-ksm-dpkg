@@ -2,6 +2,8 @@
 
   * Added ChangeLog to releases.
 
+  * Updated documentation for building/installing.
+
 * Version 1.7 released 2012-12-21
 
   * Replaced usage of 'mcrypt_ecb' as it is deprecated.

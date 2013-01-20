@@ -1,5 +1,9 @@
 2013-01-21  Dain Nilsson <dain@yubico.com>
 
+	* NEWS, doc: Updated NEWS for 1.8 release.
+
+2013-01-21  Dain Nilsson <dain@yubico.com>
+
 	* Makefile, NEWS: Added ChangeLog generation to make dist.
 
 2012-12-21  Dain Nilsson <dain@yubico.com>
