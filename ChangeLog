@@ -1,0 +1,399 @@
+2013-01-21  Dain Nilsson <dain@yubico.com>
+
+	* NEWS, doc: Updated NEWS for 1.8 release.
+
+2013-01-21  Dain Nilsson <dain@yubico.com>
+
+	* Makefile, NEWS: Added ChangeLog generation to make dist.
+
+2012-12-21  Dain Nilsson <dain@yubico.com>
+
+	* Makefile: Fixed formatting of releases.html
+
+2012-12-21  Dain Nilsson <dain@yubico.com>
+
+	* Makefile, NEWS: Updated versions post 1.7 release.
+
+2012-12-21  Dain Nilsson <dain@yubico.com>
+
+	* NEWS: Version 1.7.
+
+2012-12-21  Dain Nilsson <dain@yubico.com>
+
+	* NEWS: Updated NEWS
+
+2012-12-21  Dain Nilsson <dain@yubico.com>
+
+	* ykksm-checksum, ykksm-config.php, ykksm-export, ykksm-import: 
+	Added support for reading db config from /etc/ykksm/
+
+2012-12-20  Dain Nilsson <dain@yubico.com>
+
+	* ykksm-utils.php: Replaced the deprecated use of 'mcrypt_ecb' with
+	'mdecrypt_generic'
+
+2012-12-20  Dain Nilsson <dain@yubico.com>
+
+	* Makefile: Added man pages requirement to install.
+
+2012-12-20  Dain Nilsson <dain@yubico.com>
+
+	* Makefile: Added distclean to Makefile
+
+2012-12-19  Dain Nilsson <dain@yubico.com>
+
+	* Makefile: Makefile fixes (DESTDIR and file permissions).
+
+2012-12-19  Dain Nilsson <dain@yubico.com>
+
+	* Makefile: Added automated publishing of release to Makefile.
+
+2012-12-18  Dain Nilsson <dain@yubico.com>
+
+	* README: Corrected releases link in README.
+
+2012-12-18  Dain Nilsson <dain@yubico.com>
+
+	* README: Added link to GitHub Pages page to README.
+
+2012-12-18  Dain Nilsson <dain@yubico.com>
+
+	* Makefile, NEWS: Bumped version post release.
+
+2012-12-18  Dain Nilsson <dain@yubico.com>
+
+	* Makefile: Added manual entry of KEYID to make release.
+
+2012-12-18  Dain Nilsson <dain@yubico.com>
+
+	* NEWS: Updated NEWS for release of 1.6
+
+2012-12-18  Dain Nilsson <dain@yubico.com>
+
+	* doc: Updated docs.
+
+2012-12-18  Dain Nilsson <dain@yubico.com>
+
+	* Makefile: Updated make release to use git.
+
+2012-12-18  Dain Nilsson <dain@yubico.com>
+
+	* Makefile, NEWS, README, README.md: Updated NEWS.  Renamed README.
+
+2012-12-18  Dain Nilsson <dain@yubico.com>
+
+	* Makefile: Added clean-man to clean in Makefile
+
+2012-12-18  Dain Nilsson <dain@yubico.com>
+
+	* README.md: Updated README with info about doc.
+
+2012-12-18  Dain Nilsson <dain@yubico.com>
+
+	* .gitmodules, doc: Added doc submodule.
+
+2012-12-18  Dain Nilsson <dain@yubico.com>
+
+	* README.md: Updated URL to yubikey-val-server-php in readme.
+
+2012-12-18  Dain Nilsson <dain@yubico.com>
+
+	* : commit 9f3f2373db74127c4e1fe6258aa28e9855401e94 Author: Dain
+	Nilsson <dainzor@gmail.com> Date:   Tue Dec 18 04:40:42 2012 -0800
+
+2012-12-18  Dain Nilsson <dain@yubico.com>
+
+	* Makefile, ykksm-checksum, ykksm-checksum.pl, ykksm-export,
+	ykksm-export.pl, ykksm-gen-keys, ykksm-gen-keys.pl, ykksm-import,
+	ykksm-import.pl, ykksm-upgrade.pl: Removed .pl suffix from scripts.
+	Added man page generation to Makefile.
+
+2012-12-18  Dain Nilsson <dain@yubico.com>
+
+	* ykksm-checksum.pl: Replaced DIGEST::SHA1 with DIGEST::SHA.
+
+2012-01-23  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile, ykksm-checksum.pl, ykksm-decrypt.php, ykksm-export.pl,
+	ykksm-gen-keys.pl, ykksm-import.pl, ykksm-upgrade.pl,
+	ykksm-utils.php: Bump copyright information.
+
+2011-01-14  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2011-01-14  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-checksum.pl: Order by serial number first, makes more sense.
+
+2010-11-11  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-gen-keys.pl: Fix command line handling.
+
+2010-11-11  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-gen-keys.pl: Make the old format the default, use --pkcs to
+	get PKSC.
+
+2010-11-11  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, ykksm-gen-keys.pl: ykkgsm-gen-keys supports the PSKC YubiKey
+	profile.
+
+2010-09-21  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile, NEWS: Bump versions.
+
+2010-09-14  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 1.5.
+
+2010-09-14  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 1.4.
+
+2010-09-14  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Fix release target.  Bump revision.
+
+2010-09-14  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS, ykksm-decrypt.php: Don't use PDO rowCount.  Issue #2.
+
+2010-09-14  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2010-09-14  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2010-09-14  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-gen-keys.pl: Fix warning.  Issue #3 reported by
+	toddejohnson.
+
+2010-03-16  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Version 1.3.
+
+2010-03-16  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add dates to versions.
+
+2010-03-16  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Dist doc/SyncMonitor.wiki.
+
+2010-03-03  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-checksum.pl: Better ordering.
+
+2010-03-03  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-checksum.pl: Order query.
+
+2010-03-03  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile, ykksm-checksum.pl: Add checksum tool.
+
+2010-01-19  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Fix.
+
+2009-12-16  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Prepare for release.
+
+2009-12-15  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 1.2.
+
+2009-12-15  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Fix release target.
+
+2009-12-15  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Fix.
+
+2009-12-15  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Fix rules.
+
+2009-12-15  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-decrypt.php: Use require_once.
+
+2009-12-15  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Fix symlink rule.
+
+2009-12-15  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Fix install rule.
+
+2009-12-15  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Add symlink rule.
+
+2009-12-15  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Fix install rule.
+
+2009-12-15  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: fix
+
+2009-12-15  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Fix install target.
+
+2009-12-14  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Fix perms.
+
+2009-12-14  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Fix.
+
+2009-12-14  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Add install rule.
+
+2009-12-14  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-db.sql, ykksm-decrypt.php, ykksm-export.pl,
+	ykksm-import.pl, ykksm-upgrade.pl: Case insensitive.
+
+2009-12-14  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-import.pl: Improve help and fix created_by field.
+
+2009-12-14  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-db.sql: Make portable.
+
+2009-12-02  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-config.php: Update for PHP PDO configuration.
+
+2009-12-02  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-decrypt.php: Use PHP PDO database interface instead of hard
+	coding the MySQL interface.
+
+2009-12-02  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2009-12-02  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Bump version.
+
+2009-11-20  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Less hard coding.
+
+2009-11-20  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Fix file description.
+
+2009-11-20  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Add.
+
+2009-11-20  Simon Josefsson <simon@josefsson.org>
+
+	* : Pull in wiki to doc/.
+
+2009-06-24  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-decrypt.php: Reorder UID/CRC check so we get only the
+	interesting CRC errors.
+
+2009-05-04  Simon Josefsson <simon@josefsson.org>
+
+	* .htaccess: Add.
+
+2009-04-19  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-export.pl: Hint.
+
+2009-04-19  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-export.pl: Chmod.x
+
+2009-04-19  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-export.pl: Fix typo.
+
+2009-04-19  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-export.pl: Add.
+
+2009-04-19  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-db.sql: Be first-time install friendly.
+
+2009-03-18  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-decrypt.php: Log return string.
+
+2009-03-18  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-decrypt.php: Improve debugging.
+
+2009-03-18  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-decrypt.php: Reorder high/low to match internal order.
+
+2009-03-18  Simon Josefsson <simon@josefsson.org>
+
+	* TODO, ykksm-db.sql, ykksm-decrypt.php, ykksm-import.pl: Drop
+	accessed field.
+
+2009-03-11  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-decrypt.php: Accidentally reversed high/low.  Rename fields
+	slightly.
+
+2009-02-27  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-import.pl: Fix --help.
+
+2009-02-27  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-import.pl: Don't require progflags.
+
+2009-02-27  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-gen-keys.pl: Support --progflags.
+
+2009-02-25  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-gen-keys.pl: Fix --help.
+
+2009-02-25  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-config.php, ykksm-decrypt.php: Make syslog facility
+	configurable.
+
+2009-02-25  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-import.pl: Cleanup temp file properly.
+
+2009-02-24  Simon Josefsson <simon@josefsson.org>
+
+	* ykksm-import.pl: Fix --help.
+
+2009-02-24  Simon Josefsson <simon@josefsson.org>
+
+	* TODO, ykksm-config.php, ykksm-db.sql, ykksm-decrypt.php,
+	ykksm-gen-keys.pl, ykksm-import.pl, ykksm-utils.php: Commit initial
+	version.
+
+2009-02-24  Simon Josefsson <simon@josefsson.org>
+
+	* Initial directory structure.
+
