@@ -1,7 +1,9 @@
 Adds Debian specific configuration files.
 
---- /dev/null
-+++ yubikey-ksm-1.8/files/etc/logrotate.d/yubikey-ksm
+Index: yubikey-ksm-dpkg/files/etc/logrotate.d/yubikey-ksm
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ yubikey-ksm-dpkg/files/etc/logrotate.d/yubikey-ksm	2013-01-20 20:56:09.000000000 +0100
 @@ -0,0 +1,9 @@
 +/var/log/yubikey-ksm.log {
 +	weekly
@@ -12,16 +14,16 @@ Adds Debian specific configuration files.
 +		invoke-rc.d rsyslog reload > /dev/null
 +	endscript
 +}
---- /dev/null
-+++ yubikey-ksm-1.8/files/etc/php5/conf.d/ykksm.ini
+Index: yubikey-ksm-dpkg/files/etc/php5/conf.d/ykksm.ini
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ yubikey-ksm-dpkg/files/etc/php5/conf.d/ykksm.ini	2013-01-20 20:56:09.000000000 +0100
 @@ -0,0 +1 @@
 +include_path = "/etc/ykksm:/usr/share/yubikey-ksm"
---- /dev/null
-+++ yubikey-ksm-1.8/files/etc/rsyslog.d/yubikey-ksm.conf
-@@ -0,0 +1 @@
-+local0.* -/var/log/yubikey-ksm.log
---- /dev/null
-+++ yubikey-ksm-1.8/files/etc/apache2/sites-available/yubikey-ksm-ssl
+Index: yubikey-ksm-dpkg/files/etc/apache2/sites-available/yubikey-ksm-ssl
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ yubikey-ksm-dpkg/files/etc/apache2/sites-available/yubikey-ksm-ssl	2013-01-20 20:56:09.000000000 +0100
 @@ -0,0 +1,40 @@
 +<IfModule mod_ssl.c>
 +
@@ -63,8 +65,10 @@ Adds Debian specific configuration files.
 +</VirtualHost>
 +
 +</IfModule>
---- /dev/null
-+++ yubikey-ksm-1.8/files/etc/apache2/sites-available/yubikey-ksm
+Index: yubikey-ksm-dpkg/files/etc/apache2/sites-available/yubikey-ksm
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ yubikey-ksm-dpkg/files/etc/apache2/sites-available/yubikey-ksm	2013-01-20 20:56:09.000000000 +0100
 @@ -0,0 +1,30 @@
 +<VirtualHost *:80>
 +        ServerName api.example.com
