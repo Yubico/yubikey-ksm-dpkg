@@ -1,9 +1,0 @@
-/var/log/yubikey-ksm.log {
-	weekly
-	missingok
-	rotate 9999
-	notifempty
-	postrotate
-		invoke-rc.d rsyslog reload > /dev/null
-	endscript
-}
