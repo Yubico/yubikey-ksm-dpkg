@@ -1,3 +1,5 @@
+Updates the paths for Debian.
+
 --- a/Makefile
 +++ b/Makefile
 @@ -48,8 +48,8 @@ all:
