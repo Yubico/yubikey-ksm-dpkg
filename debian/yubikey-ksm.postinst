@@ -6,6 +6,7 @@ set -e
 . /usr/share/dbconfig-common/dpkg/postinst
 
 php_cf="/etc/ykksm/config-db.php"
+cfg_cf="/etc/ykksm/config-db.cfg"
 
 # PHP include
 dbc_generate_include_owner="root:www-data"
@@ -13,15 +14,22 @@ dbc_generate_include_perms="0640"
 dbc_generate_include=php:$php_cf
 dbc_go yubikey-ksm $@
 
+#Fix permissions of ykksm-config.php
+chown $dbc_generate_include_owner /etc/ykksm/ykksm-config.php
+chmod $dbc_generate_include_perms /etc/ykksm/ykksm-config.php
+
 # Until dbconfig-common gets support for generating more than one include
 # file, we do it the hard way. (LP: #531722)
+touch $cfg_cf
+chown $dbc_generate_include_owner $cfg_cf
+chmod $dbc_generate_include_perms $cfg_cf
 (
     echo "# yubikey-ksm database settings for perl scripts."
     echo "#"
     echo "# Generated from $php_cf by `basename $0`."
     cat $php_cf | grep ^\\$ | sed -e 's/^/our /g'
     echo "1;"
-) > /etc/ykksm/config-db.cfg
+) > $cfg_cf
 
 echo "****************************************************************"
 if [ ! -r /etc/apache2/mods-enabled/rewrite.load ]; then
