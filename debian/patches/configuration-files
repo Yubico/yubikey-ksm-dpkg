@@ -1,29 +1,15 @@
 Adds Debian specific configuration files.
 
-Index: yubikey-ksm-dpkg/files/etc/logrotate.d/yubikey-ksm
-===================================================================
---- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ yubikey-ksm-dpkg/files/etc/logrotate.d/yubikey-ksm	2013-01-20 20:56:09.000000000 +0100
-@@ -0,0 +1,9 @@
-+/var/log/yubikey-ksm.log {
-+	weekly
-+	missingok
-+	rotate 9999
-+	notifempty
-+	postrotate
-+		invoke-rc.d rsyslog reload > /dev/null
-+	endscript
-+}
 Index: yubikey-ksm-dpkg/files/etc/php5/conf.d/ykksm.ini
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ yubikey-ksm-dpkg/files/etc/php5/conf.d/ykksm.ini	2013-01-20 20:56:09.000000000 +0100
++++ yubikey-ksm-dpkg/files/etc/php5/conf.d/ykksm.ini	2013-01-22 15:20:20.000000000 +0100
 @@ -0,0 +1 @@
 +include_path = "/etc/ykksm:/usr/share/yubikey-ksm"
 Index: yubikey-ksm-dpkg/files/etc/apache2/sites-available/yubikey-ksm-ssl
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ yubikey-ksm-dpkg/files/etc/apache2/sites-available/yubikey-ksm-ssl	2013-01-20 20:56:09.000000000 +0100
++++ yubikey-ksm-dpkg/files/etc/apache2/sites-available/yubikey-ksm-ssl	2013-01-22 15:20:20.000000000 +0100
 @@ -0,0 +1,40 @@
 +<IfModule mod_ssl.c>
 +
@@ -68,7 +54,7 @@ Index: yubikey-ksm-dpkg/files/etc/apache2/sites-available/yubikey-ksm-ssl
 Index: yubikey-ksm-dpkg/files/etc/apache2/sites-available/yubikey-ksm
 ===================================================================
 --- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ yubikey-ksm-dpkg/files/etc/apache2/sites-available/yubikey-ksm	2013-01-20 20:56:09.000000000 +0100
++++ yubikey-ksm-dpkg/files/etc/apache2/sites-available/yubikey-ksm	2013-01-22 15:20:20.000000000 +0100
 @@ -0,0 +1,30 @@
 +<VirtualHost *:80>
 +        ServerName api.example.com
