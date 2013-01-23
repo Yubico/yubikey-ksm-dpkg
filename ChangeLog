@@ -1,3 +1,15 @@
+2013-01-23  Dain Nilsson <dain@yubico.com>
+
+	* NEWS, doc: Version 1.9
+
+2013-01-23  Dain Nilsson <dain@yubico.com>
+
+	* NEWS, ykksm-utils.php: Renamed hex2bin to yubi_hex2bin.
+
+2013-01-23  Dain Nilsson <dain@yubico.com>
+
+	* Makefile, NEWS: Updated versions post 1.8 release.
+
 2013-01-21  Dain Nilsson <dain@yubico.com>
 
 	* NEWS, doc: Updated NEWS for 1.8 release.

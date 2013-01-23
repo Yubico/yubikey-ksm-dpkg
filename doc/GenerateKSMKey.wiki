@@ -8,7 +8,7 @@ Below is a walk-through of a typical key generation session for a host
 called 'crater'.  As you can see at the end, it generated a key with a
 key id of '8B88A11B'.
 
-After this step you may want to generate AES keys for your !YubiKeys,
+After this step you may want to generate AES keys for your YubiKeys,
 see [[GenerateKeys]], and then import them to your KSM, see
 [[ImportKeysToKSM]].
 
