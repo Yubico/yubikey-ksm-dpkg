@@ -8,7 +8,7 @@ Build-Depends: debhelper (>= 7.0.50~),
 	 libdbi-perl
 Vcs-Git: git://github.com/Yubico/yubikey-ksm-dpkg.git
 Vcs-Browser: https://github.com/Yubico/yubikey-ksm-dpkg
-Homepage: http://code.google.com/p/yubikey-ksm/
+Homepage: https://github.com/Yubico/yubikey-ksm
 Standards-Version: 3.9.3
 DM-Upload-Allowed: yes
 
