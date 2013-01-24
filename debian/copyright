@@ -4,7 +4,7 @@ Upstream-Contact: ossmaint@yubico.com
 Source: https://github.com/Yubico/yubikey-ksm
 
 Files: *
-Copyright: Copyright (c) 2009-2012 Yubico AB
+Copyright: Copyright (c) 2009-2013 Yubico AB
 License: BSD-2-clause
  All rights reserved.
  .
