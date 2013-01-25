@@ -31,28 +31,18 @@ chmod $dbc_generate_include_perms $cfg_cf
     echo "1;"
 ) > $cfg_cf
 
-echo "****************************************************************"
-if [ ! -r /etc/apache2/mods-enabled/rewrite.load ]; then
-    echo "* You will need to enable the mod_rewrite module in Apache:    *"
-    echo "*    $ sudo a2enmod rewrite                                    *"
-    echo "*                                                              *"
+if [ -d /etc/apache2/conf.d ] && [ ! -e /etc/apache2/conf.d/yubikey-ksm.conf ]; then
+    ln -s ../../ykksm/apache.conf /etc/apache2/conf.d/yubikey-ksm.conf
 fi
-if [ ! -r /etc/apache2/mods-enabled/ssl.load ]; then
-    echo "* For SSL support, you will need to enable mod_ssl:            *"
-    echo "*    $ sudo a2enmod ssl                                        *"
-    echo "*                                                              *"
+
+if [ -f /etc/init.d/apache2 ] ; then
+    if [ -x /usr/sbin/invoke-rc.d ]; then
+        invoke-rc.d apache2 reload 3>/dev/null || true
+    else
+        /etc/init.d/apache2 reload 3>/dev/null || true
+    fi
 fi
-if [ -r /etc/apache2/sites-enabled/000-default ]; then
-    echo "* You probably need to disable the Apache default site:        *"
-    echo "*    $ sudo a2dissite default                                  *"
-    echo "*                                                              *"
-fi
-echo "* To enable the yubikey-ksm sites, run the following command:  *"
-echo "*    $ sudo a2ensite yubikey-ksm yubikey-ksm-ssl               *"
-echo "*                                                              *"
-echo "* After making any changes to the Apache configuration, run:   *"
-echo "*    $ sudo service apache2 reload                             *"
-echo "****************************************************************"
+
 
 #DEBHELPER#
 
