@@ -1,3 +1,2 @@
-files/* /
-debian/conf/mysql /usr/share/dbconfig-common/data/yubikey-ksm/install/
-debian/conf/postgresql /usr/share/dbconfig-common/data/yubikey-ksm/install/
+debian/conf/apache2/* /etc/apache2/sites-available/
+debian/conf/dbconfig/* /usr/share/dbconfig-common/data/yubikey-ksm/install/

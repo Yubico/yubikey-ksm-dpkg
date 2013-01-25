@@ -1,0 +1,30 @@
+<VirtualHost *:80>
+        ServerName api.example.com
+        ServerAdmin support@example.com
+
+        DocumentRoot /var/www/
+        <Directory />
+                Options None
+                AllowOverride None
+                Order allow,deny
+                Deny from all
+        </Directory>
+
+	Alias /wsapi/decrypt		/usr/share/yubikey-ksm/ykksm-decrypt.php
+
+        <Directory /usr/share/yubikey-ksm/>
+                Options None
+                AllowOverride None
+                Order allow,deny
+                Allow from all
+		<IfModule mod_php5.c>
+			  php_value include_path ".:/etc/ykksm:/usr/share/yubikey-ksm"
+		</IfModule>
+        </Directory>
+
+        ErrorLog /var/log/apache2/yubikey-ksm-error.log
+        LogLevel warn
+
+        CustomLog /var/log/apache2/yubikey-ksm-access.log "%h %l %u %t \"%r\" %>s %b %D \"%{Referer}i\" \"%{User-Agent}i\""
+        ServerSignature On
+</VirtualHost>
