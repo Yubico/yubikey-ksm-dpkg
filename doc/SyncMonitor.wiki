@@ -37,7 +37,7 @@ that the truncated hash value is identical on all KSMs.
  user@ksm:~$ sudo sh -c 'cat > /etc/cron.hourly/run-ykksm-checksum'
  #!/bin/sh
  FILE=/var/www/checksum.txt
- (date --utc +%s; ykksm-checksum --db-user ykksmreader --db-passwd `grep password /etc/ykksm/ykksm-config.php|cut -d\  -f3|cut -d\" -f2`) > $FILE.tmp
+ (date --utc +%s; ykksm-checksum --db-user ykksmreader --db-passwd `grep password /etc/yubico/ksm/ykksm-config.php|cut -d\  -f3|cut -d\" -f2`) > $FILE.tmp
  mv $FILE.tmp $FILE
  user@ksm:~$ sudo chmod +x /etc/cron.hourly/run-ykksm-checksum
 </nowiki>

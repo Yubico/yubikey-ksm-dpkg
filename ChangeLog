@@ -1,3 +1,38 @@
+2013-01-31  Dain Nilsson <dain@yubico.com>
+
+	* NEWS: Updated NEWS for 1.10
+
+2013-01-31  Dain Nilsson <dain@yubico.com>
+
+	* Makefile: Added quoting of versions for Jekyll
+
+2013-01-30  Dain Nilsson <dain@yubico.com>
+
+	* Makefile: Makefile fixes.
+
+2013-01-30  Dain Nilsson <dain@yubico.com>
+
+	* Makefile: Makefile now installs man pages.
+
+2013-01-28  Dain Nilsson <dain@yubico.com>
+
+	* ykksm-config.php: Added missing default db type.
+
+2013-01-28  Dain Nilsson <dain@yubico.com>
+
+	* ykksm-checksum, ykksm-export, ykksm-import: Fixed scripts failing
+	when db config exists but isn't readable.
+
+2013-01-28  Dain Nilsson <dain@yubico.com>
+
+	* Makefile, NEWS, doc, ykksm-checksum, ykksm-config.php,
+	ykksm-export, ykksm-import: Use yubikey-ksm instead of ykksm in
+	paths, configuration in /etc/yubico/ksm
+
+2013-01-23  Dain Nilsson <dain@yubico.com>
+
+	* Makefile, NEWS: Updated versions post 1.9.
+
 2013-01-23  Dain Nilsson <dain@yubico.com>
 
 	* NEWS, doc: Version 1.9

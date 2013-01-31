@@ -26,7 +26,7 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-VERSION = 1.9
+VERSION = 1.10
 PACKAGE = yubikey-ksm
 CODE = .htaccess Makefile NEWS ykksm-config.php ykksm-db.sql	\
 	ykksm-decrypt.php ykksm-export ykksm-gen-keys	\
@@ -46,10 +46,10 @@ all:
 
 # Installation rules.
 
-etcprefix = /etc/ykksm
+etcprefix = /etc/yubico/ksm
 binprefix = /usr/bin
-phpprefix = /usr/share/ykksm
-docprefix = /usr/share/doc/ykksm
+phpprefix = /usr/share/yubikey-ksm
+docprefix = /usr/share/doc/yubikey-ksm
 wwwgroup = www-data
 
 install: $(MANS)
@@ -61,6 +61,10 @@ install: $(MANS)
 	install -D ykksm-export $(DESTDIR)$(binprefix)/ykksm-export
 	install -D ykksm-checksum $(DESTDIR)$(binprefix)/ykksm-checksum
 	install -D --backup --mode 640 --group $(wwwgroup) ykksm-config.php $(DESTDIR)$(etcprefix)/ykksm-config.php
+	install -D ykksm-gen-keys.1 $(DESTDIR)$(manprefix)/ykksm-gen-keys.1
+	install -D ykksm-import.1 $(DESTDIR)$(manprefix)/ykksm-import.1
+	install -D ykksm-export.1 $(DESTDIR)$(manprefix)/ykksm-export.1
+	install -D ykksm-checksum.1 $(DESTDIR)$(manprefix)/ykksm-checksum.1
 	install -D ykksm-db.sql $(DESTDIR)$(docprefix)/ykksm-db.sql
 	install -D Makefile $(DESTDIR)$(docprefix)/ykksm.mk
 	install -D $(DOCS) $(DESTDIR)$(docprefix)/
@@ -112,10 +116,12 @@ release: dist
 		echo "  make release KEYID=2117364A"; \
 		exit 1; \
 	fi
+	@head -1 NEWS | grep -q "Version $(VERSION) (released `date -I`)" || \
+                (echo 'error: You need to update date/version in NEWS'; exit 1)
 	gpg --detach-sign --default-key $(KEYID) $(PACKAGE)-$(VERSION).tgz
 	gpg --verify $(PACKAGE)-$(VERSION).tgz.sig
 
-	git tag -sm "$(PACKAGE)-$(VERSION)" $(PACKAGE)-$(VERSION)
+	git tag -u $(KEYID) -m "$(PACKAGE)-$(VERSION)" $(PACKAGE)-$(VERSION)
 	git push
 	git push --tags
 
@@ -126,7 +132,7 @@ release: dist
 	git stash pop
 	git mv $(PACKAGE)-$(VERSION).tgz releases/
 	git mv $(PACKAGE)-$(VERSION).tgz.sig releases/
-	x=$$(ls -1 releases/*.tgz | awk -F\- '{print $$3}' | sed 's/.tgz//' | paste -sd ',' - | sed 's/,/, /g');sed -i -e "2s/\[.*\]/[$$x]/" releases.html
+	x=$$(ls -1v releases/*.tgz | awk -F\- '{print $$3}' | sed 's/.tgz//' | paste -sd ',' - | sed 's/,/, /g' | sed 's/\([0-9.]\{1,\}\)/"\1"/g');sed -i -e "2s/\[.*\]/[$$x]/" releases.html
 	git add releases.html
 	git commit -m "Added tarball for release $(VERSION)"
 	git push

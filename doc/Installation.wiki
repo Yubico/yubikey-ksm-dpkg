@@ -144,7 +144,7 @@ with the following content:
 
  <nowiki>
  user@ksm:~$ sudo sh -c 'cat > /etc/php5/conf.d/ykksm.ini'
- include_path = "/etc/ykksm:/usr/share/ykksm"
+ include_path = "/etc/yubico/ksm:/usr/share/ykksm"
  user@ksm:~$ sudo /etc/init.d/apache2 restart
  user@ksm:~$ 
 </nowiki>
@@ -240,10 +240,10 @@ You may also run the commands manually.
 
 You need to edit the ykksm-config.php script.  An example file is
 included in YK-KSM as 'ykksm-config.php'.  It is normally installed as
-/etc/ykksm/ykksm-config.php:
+/etc/yubico/ksm/ykksm-config.php:
 
  <nowiki>
- user@ksm:~$ sudo cat /etc/ykksm/ykksm-config.php 
+ user@ksm:~$ sudo cat /etc/yubico/ksm/ykksm-config.php 
  <?php
  $db_dsn      = "mysql:dbname=ykksm;host=127.0.0.1";
  $db_username = "ykksmreader";
