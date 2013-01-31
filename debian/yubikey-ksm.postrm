@@ -13,13 +13,13 @@ fi
 
 if [ "$1" = "purge" ]; then
     # these files are generated in postinst
-    for cf in /etc/ykksm/config-db.php /etc/ykksm/config-db.cfg; do
+    for cf in /etc/yubico/ksm/config-db.php /etc/yubico/ksm/config-db.cfg; do
 	rm -f $cf
 	if which ucf >/dev/null 2>&1; then
 	    ucf --purge $cf
 	fi
     done
-    rm -rf /etc/ykksm
+    rm -rf /etc/yubico/ksm
 fi
 
 if [ "$1" = "remove" ] || [ "$1" = "purge" ]; then

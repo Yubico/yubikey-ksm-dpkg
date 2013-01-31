@@ -5,8 +5,8 @@ set -e
 . /usr/share/debconf/confmodule
 . /usr/share/dbconfig-common/dpkg/postinst
 
-php_cf="/etc/ykksm/config-db.php"
-cfg_cf="/etc/ykksm/config-db.cfg"
+php_cf="/etc/yubico/ksm/config-db.php"
+cfg_cf="/etc/yubico/ksm/config-db.cfg"
 
 # PHP include
 dbc_generate_include_owner="root:www-data"
@@ -15,8 +15,8 @@ dbc_generate_include=php:$php_cf
 dbc_go yubikey-ksm $@
 
 #Fix permissions of ykksm-config.php
-chown $dbc_generate_include_owner /etc/ykksm/ykksm-config.php
-chmod $dbc_generate_include_perms /etc/ykksm/ykksm-config.php
+chown $dbc_generate_include_owner /etc/yubico/ksm/ykksm-config.php
+chmod $dbc_generate_include_perms /etc/yubico/ksm/ykksm-config.php
 
 # Until dbconfig-common gets support for generating more than one include
 # file, we do it the hard way. (LP: #531722)
@@ -32,7 +32,7 @@ chmod $dbc_generate_include_perms $cfg_cf
 ) > $cfg_cf
 
 if [ -d /etc/apache2/conf.d ] && [ ! -e /etc/apache2/conf.d/yubikey-ksm.conf ]; then
-    ln -s ../../ykksm/apache.conf /etc/apache2/conf.d/yubikey-ksm.conf
+    ln -s ../../yubico/ksm/apache.conf /etc/apache2/conf.d/yubikey-ksm.conf
 fi
 
 if [ -f /etc/init.d/apache2 ] ; then
