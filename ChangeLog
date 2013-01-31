@@ -1,5 +1,17 @@
 2013-01-31  Dain Nilsson <dain@yubico.com>
 
+	* NEWS: Updated NEWS for 1.11.
+
+2013-01-31  Dain Nilsson <dain@yubico.com>
+
+	* Makefile: Added missing manprefix to Makefile.
+
+2013-01-31  Dain Nilsson <dain@yubico.com>
+
+	* Makefile, NEWS: Updated Makefile and NEWS post 1.10 release.
+
+2013-01-31  Dain Nilsson <dain@yubico.com>
+
 	* NEWS: Updated NEWS for 1.10
 
 2013-01-31  Dain Nilsson <dain@yubico.com>
