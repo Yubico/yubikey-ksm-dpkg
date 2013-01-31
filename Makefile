@@ -26,7 +26,7 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-VERSION = 1.10
+VERSION = 1.11
 PACKAGE = yubikey-ksm
 CODE = .htaccess Makefile NEWS ykksm-config.php ykksm-db.sql	\
 	ykksm-decrypt.php ykksm-export ykksm-gen-keys	\
@@ -50,6 +50,7 @@ etcprefix = /etc/yubico/ksm
 binprefix = /usr/bin
 phpprefix = /usr/share/yubikey-ksm
 docprefix = /usr/share/doc/yubikey-ksm
+manprefix = /usr/share/man/man1
 wwwgroup = www-data
 
 install: $(MANS)
