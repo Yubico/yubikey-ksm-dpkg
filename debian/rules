@@ -3,8 +3,11 @@
 VCS_PATH="/home/ft/work/yubico/php/yubikey-ksm/trunk"
 VCS_REVISION="2.8"
 
+override_dh_auto_clean:
+# This only removes the man pages, which we would like to keep.
+
 override_dh_auto_build:
-# There is no default 'make' target for this package
+# There is no default 'make' target for this package.
 
 git-clone: git-clone-stamp
 git-clone-stamp:
@@ -17,7 +20,7 @@ pre-build:: git-clone
 
 # Build architecture-dependent files here.
 binary-arch: install
-# We have nothing to do
+# We have nothing to do.
 
 # Build architecture-independent files here.
 binary-indep: install
