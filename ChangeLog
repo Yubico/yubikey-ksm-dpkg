@@ -1,3 +1,29 @@
+2013-02-05  Dain Nilsson <dain@yubico.com>
+
+	* NEWS: Updated NEWS for 1.12 release.
+
+2013-02-04  Dain Nilsson <dain@yubico.com>
+
+	* ykksm-checksum, ykksm-export, ykksm-import: Updated copyright
+	headers.
+
+2013-02-01  Dain Nilsson <dain@yubico.com>
+
+	* .gitignore: Added .gitignore with build artifacts.
+
+2013-02-04  Simon Josefsson <simon@josefsson.org>
+
+	* COPYING, Makefile, NEWS, ykksm-decrypt.php, ykksm-gen-keys,
+	ykksm-utils.php: Update copyright information.
+
+2013-02-04  Simon Josefsson <simon@josefsson.org>
+
+	* README: Fix ykval link.
+
+2013-01-31  Dain Nilsson <dain@yubico.com>
+
+	* Makefile, NEWS: Updated Makefile and NEWS post 1.11.
+
 2013-01-31  Dain Nilsson <dain@yubico.com>
 
 	* NEWS: Updated NEWS for 1.11.

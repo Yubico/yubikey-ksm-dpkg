@@ -1,5 +1,5 @@
 # Written by Simon Josefsson <simon@josefsson.org>.
-# Copyright (c) 2009-2012 Yubico AB
+# Copyright (c) 2009-2013 Yubico AB
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -26,7 +26,7 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-VERSION = 1.11
+VERSION = 1.12
 PACKAGE = yubikey-ksm
 CODE = .htaccess Makefile NEWS ykksm-config.php ykksm-db.sql	\
 	ykksm-decrypt.php ykksm-export ykksm-gen-keys	\
