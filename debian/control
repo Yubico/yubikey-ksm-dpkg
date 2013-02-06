@@ -1,14 +1,13 @@
 Source: yubikey-ksm
+Section: net
+Priority: extra
 Maintainer: Yubico Open Source Maintainers <ossmaint@yubico.com>
 Uploaders: Simon Josefsson <simon@josefsson.org>, Klas Lindfors <klas@yubico.com>, Dain Nilsson <dain@yubico.com>, Tommaso Galassi De Orchi <tom@yubico.com>
-Section: utils
-Priority: extra
 Build-Depends: debhelper (>= 7.0.50~)
-Vcs-Git: git://github.com/Yubico/yubikey-ksm-dpkg.git
-Vcs-Browser: https://github.com/Yubico/yubikey-ksm-dpkg
-Homepage: https://github.com/Yubico/yubikey-ksm
 Standards-Version: 3.9.3
-DM-Upload-Allowed: yes
+Homepage: https://github.com/Yubico/yubikey-ksm
+Vcs-Browser: https://github.com/Yubico/yubikey-ksm-dpkg
+Vcs-Git: git://github.com/Yubico/yubikey-ksm-dpkg.git
 
 Package: yubikey-ksm
 Architecture: all
@@ -21,11 +20,20 @@ Depends: ${misc:Depends},
 	 dbconfig-common,
 	 libdbi-perl
 Recommends: mysql-client | postgresql-client
-Description: YubiKey KSM written in PHP
- The YubiKey Key Storage Module (YK-KSM) provides a AES key storage facility
- for use with a YubiKey validation server. The YK-KSM is intended to be run on
- a locked-down server. This separation allows third parties to keep tight
- control of the AES keys for their YubiKeys, but at the same time allow
- external validation servers (e.g., Yubico's) to validate OTPs from these
- YubiKeys.
- The YK-KSM was designed to work with yubikey-val-server-php.
+Suggests: yubikey-val
+Description: Key Storage Module for YubiKey One-Time Password (OTP) tokens
+ YubiKeys are USB tokens that act like keyboards and generate one-time
+ passwords.  This package contains a server written in PHP for use
+ with Apache that decrypt YubiKey One-Time Passwords (OTPs), normally
+ only used by YubiKey OTP validation servers.  The architecture is
+ that a set of validation servers manage the token counters and
+ respond to OTP requests from clients, and utilize a set of back-end
+ YubiKey Key Storage Module (KSM) servers to perform the actual AES
+ key decryption.  The protocols are openly published.  This implementation
+ store the AES keys in a database unencrypted, which can be protected
+ using file-system encryption mechanisms   Another KSM implementation
+ is available in the yhsm-yubikey-ksm package that use the YubiHSM hardware
+ to protect the decryption process.  Sometimes the KSM runs on another
+ server than the validation server, but it is possible to run both on
+ the same machine.  After installing and configuring this package you
+ will have a YubiKey KSM server up and running via Apache.
