@@ -1,4 +1,4 @@
-yubikey-ksm (1.12-1) unstable; urgency=low
+yubikey-ksm (1.12-2) unstable; urgency=low
 
   * Initial package (closes: #698839).
 
