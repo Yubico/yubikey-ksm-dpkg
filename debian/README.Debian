@@ -1,19 +1,12 @@
-This is an attempt to automate the installation instructions for
-yubikey-ksm as found here :
+yubikey-ksm for Debian
+----------------------
 
-  http://code.google.com/p/yubikey-ksm/wiki/Installation
+This package contains the YubiKey Key Storage Module (YK-KSM) server.
 
-The original installation instructions detail creating two database
-users - one with read access and one for adding new yubikeys to the
-database. I've only automatted the read-only user, since I don't know
-how to create additional users with dbconfig-common and the other one
-is only used manually as per
+The homepage is:
 
-  http://code.google.com/p/yubikey-ksm/wiki/ImportKeysToKSM
+  http://yubico.github.com/yubikey-ksm/
 
-I've tested this package with MySQL only. If you install this on a
-dedicated machine that won't be serving any other sites using Apache
-you will need to disable the 'default' site manually.
+Documentation is available from here:
 
-  $ sudo a2dissite default
-  $
+  https://github.com/Yubico/yubikey-ksm/wiki/_pages
