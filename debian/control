@@ -3,8 +3,8 @@ Section: net
 Priority: extra
 Maintainer: Yubico Open Source Maintainers <ossmaint@yubico.com>
 Uploaders: Simon Josefsson <simon@josefsson.org>, Klas Lindfors <klas@yubico.com>, Dain Nilsson <dain@yubico.com>, Tommaso Galassi De Orchi <tom@yubico.com>
-Build-Depends: debhelper (>= 7.0.50~)
-Standards-Version: 3.9.3
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.4
 Homepage: https://github.com/Yubico/yubikey-ksm
 Vcs-Browser: https://github.com/Yubico/yubikey-ksm-dpkg
 Vcs-Git: git://github.com/Yubico/yubikey-ksm-dpkg.git
