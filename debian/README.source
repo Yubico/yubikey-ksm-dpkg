@@ -14,11 +14,10 @@ git clone https://github.com/Yubico/yubikey-ksm-dpkg.git
 
 Build the package:
 
-git-buildpackage --git-builder="pdebuild --auto-debsign --pbuilder cowbuilder -- --basepath /var/cache/pbuilder/base-debian-sid.cow"
+git-buildpackage --git-builder="pdebuild --auto-debsign --pbuilder cowbuilder -- --twice --basepath /var/cache/pbuilder/base-debian-sid.cow"
 
 If all goes well, you should have newly built packages in
 /var/cache/pbuilder/result/.
-
 
 Update the package to a new upstream release
 --------------------------------------------
