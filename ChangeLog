@@ -1,3 +1,27 @@
+2013-04-17  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile, NEWS: Version 1.13.
+
+2013-04-17  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Updated release procedure.
+
+2013-04-17  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Fix dist target.
+
+2013-04-10  Dain Nilsson <dain@yubico.com>
+
+	* Makefile: Updated release target.
+
+2013-03-05  Dain Nilsson <dainzor@gmail.com>
+
+	* : Merge pull request #2 from colinnewell/master The makefile has spaces where there should be tabs
+
+2013-02-05  Dain Nilsson <dain@yubico.com>
+
+	* Makefile: Fixed homepage building in make release.
+
 2013-02-05  Dain Nilsson <dain@yubico.com>
 
 	* NEWS: Updated NEWS for 1.12 release.

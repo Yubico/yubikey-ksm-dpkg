@@ -26,7 +26,7 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-VERSION = 1.12
+VERSION = 1.13
 PACKAGE = yubikey-ksm
 CODE = .htaccess Makefile NEWS ykksm-config.php ykksm-db.sql	\
 	ykksm-decrypt.php ykksm-export ykksm-gen-keys	\
@@ -82,6 +82,8 @@ symlink:
 PROJECT = $(PACKAGE)
 
 $(PACKAGE)-$(VERSION).tgz: $(FILES) $(MANS)
+	git submodule init
+	git submodule update
 	mkdir $(PACKAGE)-$(VERSION) $(PACKAGE)-$(VERSION)/doc
 	cp $(CODE) $(PACKAGE)-$(VERSION)/
 	cp $(MANS) $(PACKAGE)-$(VERSION)/
@@ -119,22 +121,13 @@ release: dist
 	fi
 	@head -1 NEWS | grep -q "Version $(VERSION) (released `date -I`)" || \
                 (echo 'error: You need to update date/version in NEWS'; exit 1)
+	@if test ! -d $(YUBICO_GITHUB_REPO); then \
+		echo "yubico.github.com repo not found!"; \
+		echo "Make sure that YUBICO_GITHUB_REPO is set"; \
+		exit 1; \
+	fi
 	gpg --detach-sign --default-key $(KEYID) $(PACKAGE)-$(VERSION).tgz
 	gpg --verify $(PACKAGE)-$(VERSION).tgz.sig
-
 	git tag -u $(KEYID) -m "$(PACKAGE)-$(VERSION)" $(PACKAGE)-$(VERSION)
-	git push
-	git push --tags
-
-	git add $(PACKAGE)-$(VERSION).tgz
-	git add $(PACKAGE)-$(VERSION).tgz.sig
-	git stash
-	git checkout gh-pages
-	git stash pop
-	git mv $(PACKAGE)-$(VERSION).tgz releases/
-	git mv $(PACKAGE)-$(VERSION).tgz.sig releases/
-	x=$$(ls -1v releases/*.tgz | awk -F\- '{print $$3}' | sed 's/.tgz//' | paste -sd ',' - | sed 's/,/, /g' | sed 's/\([0-9.]\{1,\}\)/"\1"/g');sed -i -e "2s/\[.*\]/[$$x]/" releases.html
-	git add releases.html
-	git commit -m "Added tarball for release $(VERSION)"
-	git push
-	git checkout master
+	echo "Release created and tagged, remember to git push && git push --tags"
+	$(YUBICO_GITHUB_REPO)/publish $(PROJECT) $(VERSION) $(PACKAGE)-$(VERSION).tgz*
