@@ -1,3 +1,39 @@
+2013-09-18  Simon Josefsson <simon@josefsson.org>
+
+	* doc: Bump doc/.
+
+2013-09-18  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 1.14.
+
+2013-09-18  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Fix release rule.
+
+2013-09-18  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2013-09-05  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add.
+
+2013-07-01  Remi Mollon <remi.mollon@cern.ch>
+
+	* ykksm-decrypt.php: oracle support
+
+2013-04-22  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile, README: Improve README.  Dist it.
+
+2013-04-17  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile, NEWS: Bump version.
+
+2013-04-17  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Improve release target.
+
 2013-04-17  Simon Josefsson <simon@josefsson.org>
 
 	* Makefile, NEWS: Version 1.13.
