@@ -1,7 +1,6 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: YubiKey KSM
-Upstream-Contact: ossmaint@yubico.com
-Source: https://github.com/Yubico/yubikey-ksm
+Source: https://developers.yubico.com/yubikey-ksm/
 
 Files: *
 Copyright: Copyright (c) 2009-2013 Yubico AB
