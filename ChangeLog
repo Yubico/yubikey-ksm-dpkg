@@ -1,3 +1,185 @@
+2014-09-30  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Version 1.15.
+
+2014-09-30  Simon Josefsson <simon@josefsson.org>
+
+	* doc/DecryptionProtocol.txt, doc/DesignGoals.txt,
+	doc/GenerateKSMKey.txt, doc/GenerateKeys.txt,
+	doc/ImportKeysToKSM.txt, doc/Installation.txt,
+	doc/KeyProvisioningFormat.txt, doc/MakeRelease.txt,
+	doc/ServerHardening.txt, doc/SyncMonitor.txt: Editorial fixes.
+
+2014-09-30  Simon Josefsson <simon@josefsson.org>
+
+	* doc/MakeRelease.txt: Doc fix.
+
+2014-09-23  Simon Josefsson <simon@josefsson.org>
+
+	* doc/KeyProvisioningFormat.txt: Fix markup.
+
+2014-09-23  Klas Lindfors <klas@yubico.com>
+
+	* doc/KeyProvisioningFormat.txt: fix formating
+
+2014-09-19  Simon Josefsson <simon@josefsson.org>
+
+	* selftest.sh: drop debug code
+
+2014-09-19  Simon Josefsson <simon@josefsson.org>
+
+	* README: Update.
+
+2014-09-19  Simon Josefsson <simon@josefsson.org>
+
+	* selftest.sh: Debug travis.
+
+2014-09-19  Simon Josefsson <simon@josefsson.org>
+
+	* Makefile: Improve makefile.
+
+2014-09-19  Simon Josefsson <simon@josefsson.org>
+
+	* doc/DecryptionProtocol.txt, doc/DesignGoals.txt,
+	doc/GenerateKSMKey.txt, doc/GenerateKeys.txt,
+	doc/ImportKeysToKSM.txt, doc/Installation.txt,
+	doc/KeyProvisioningFormat.txt, doc/MakeRelease.txt,
+	doc/ServerHardening.txt, doc/SyncMonitor.txt: Add wiki pages.
+
+2014-09-19  Simon Josefsson <simon@josefsson.org>
+
+	* .gitmodules: remove more.
+
+2014-09-19  Simon Josefsson <simon@josefsson.org>
+
+	* .gitmodules, doc: Remove doc submodule.
+
+2014-09-12  Klas Lindfors <klas@yubico.com>
+
+	* Makefile: set VERSION correctly in Makefile
+
+2014-09-04  Simon Josefsson <simon@josefsson.org>
+
+	* BLURB, Makefile, NEWS: Update some URLs.
+
+2014-08-21  Simon Josefsson <simon@josefsson.org>
+
+	* NEWS: Add NEWS entries.
+
+2014-06-26  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: add php 5.6 for travis
+
+2014-02-19  Klas Lindfors <klas@yubico.com>
+
+	* BLURB: add BLURB
+
+2013-11-08  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml, selftest.sh: add sqlite support to the travis tests
+
+2013-11-08  Klas Lindfors <klas@yubico.com>
+
+	* ykksm-decrypt.php: change the sql syntax for active so it works on
+	sqlite
+
+2013-11-08  Klas Lindfors <klas@yubico.com>
+
+	* doc: update documentation
+
+2013-11-07  Klas Lindfors <klas@yubico.com>
+
+	* selftest.sh: test some failures
+
+2013-11-07  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: more php versions
+
+2013-11-07  Klas Lindfors <klas@yubico.com>
+
+	* : commit af945c4014c6e89935570b861c5cadd1d616fc9f Author: Klas
+	Lindfors <klas@yubico.com> Date:   Thu Nov 7 09:43:55 2013 +0100
+
+2013-11-07  Klas Lindfors <klas@yubico.com>
+
+	* selftest.sh: typo
+
+2013-11-07  Klas Lindfors <klas@yubico.com>
+
+	* selftest.sh: restructure selftest to use php on cli
+
+2013-11-06  Klas Lindfors <klas@yubico.com>
+
+	* selftest.sh: try to find out how the php environment looks
+
+2013-11-06  Klas Lindfors <klas@yubico.com>
+
+	* selftest.sh: change quotes on insert and add all columns
+
+2013-11-06  Klas Lindfors <klas@yubico.com>
+
+	* selftest.sh: show phpenv info
+
+2013-11-06  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: add pgsql
+
+2013-11-06  Klas Lindfors <klas@yubico.com>
+
+	* selftest.sh: apparently not using phpenv..
+
+2013-11-06  Klas Lindfors <klas@yubico.com>
+
+	* selftest.sh: try to get php right
+
+2013-11-06  Klas Lindfors <klas@yubico.com>
+
+	* selftest.sh: do another curl in error
+
+2013-11-06  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml: wait with variants
+
+2013-11-06  Klas Lindfors <klas@yubico.com>
+
+	* selftest.sh: spec error.log and access.log
+
+2013-11-06  Klas Lindfors <klas@yubico.com>
+
+	* selftest.sh: sudo when looking at logs
+
+2013-11-06  Klas Lindfors <klas@yubico.com>
+
+	* selftest.sh: do +e when we run tests..
+
+2013-11-06  Klas Lindfors <klas@yubico.com>
+
+	* selftest.sh: try to get more information on error
+
+2013-11-06  Klas Lindfors <klas@yubico.com>
+
+	* selftest.sh: syntax fix
+
+2013-11-06  Klas Lindfors <klas@yubico.com>
+
+	* selftest.sh: else -> elif
+
+2013-11-06  Klas Lindfors <klas@yubico.com>
+
+	* selftest.sh: remove \r
+
+2013-11-06  Klas Lindfors <klas@yubico.com>
+
+	* selftest.sh: executable
+
+2013-11-06  Klas Lindfors <klas@yubico.com>
+
+	* .travis.yml, selftest.sh: start adding travis for yubikey-ksm
+
+2013-11-06  Klas Lindfors <klas@yubico.com>
+
+	* .gitmodules: change doc module to use https instead of ssh
+
 2013-09-18  Simon Josefsson <simon@josefsson.org>
 
 	* doc: Bump doc/.
