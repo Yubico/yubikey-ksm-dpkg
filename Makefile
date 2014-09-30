@@ -1,5 +1,5 @@
 # Written by Simon Josefsson <simon@josefsson.org>.
-# Copyright (c) 2009-2013 Yubico AB
+# Copyright (c) 2009-2014 Yubico AB
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -26,22 +26,22 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-VERSION = 1.14
+VERSION = 1.15
 PACKAGE = yubikey-ksm
 CODE = .htaccess Makefile NEWS README ykksm-config.php ykksm-db.sql	\
 	ykksm-decrypt.php ykksm-export ykksm-gen-keys	\
 	ykksm-import ykksm-utils.php ykksm-checksum
-DOCS = doc/DecryptionProtocol.wiki doc/DesignGoals.wiki		\
-	doc/GenerateKeys.wiki doc/GenerateKSMKey.wiki		\
-	doc/ImportKeysToKSM.wiki doc/Installation.wiki		\
-	doc/KeyProvisioningFormat.wiki doc/ServerHardening.wiki	\
-	doc/SyncMonitor.wiki
+DOCS = doc/DecryptionProtocol.txt doc/DesignGoals.txt		\
+	doc/GenerateKeys.txt doc/GenerateKSMKey.txt		\
+	doc/ImportKeysToKSM.txt doc/Installation.txt		\
+	doc/KeyProvisioningFormat.txt doc/ServerHardening.txt	\
+	doc/SyncMonitor.txt
 MANS = ykksm-checksum.1 ykksm-export.1 ykksm-gen-keys.1		\
 	ykksm-import.1
 
 all:
 	@echo "Try 'make install' or 'make symlink'."
-	@echo "Docs: https://github.com/Yubico/$(PROJECT)/wiki/Installation"
+	@echo "See doc/Installation.txt for more information"
 	@exit 1
 
 # Installation rules.
@@ -82,8 +82,6 @@ symlink:
 PROJECT = $(PACKAGE)
 
 $(PACKAGE)-$(VERSION).tgz: $(FILES) $(MANS)
-	git submodule init
-	git submodule update
 	mkdir $(PACKAGE)-$(VERSION) $(PACKAGE)-$(VERSION)/doc
 	cp $(CODE) $(PACKAGE)-$(VERSION)/
 	cp $(MANS) $(PACKAGE)-$(VERSION)/
@@ -112,22 +110,15 @@ NAME_ykksm-import = 'Tool to import key data on the YKKSM-KEYPROV format.'
 man: $(MANS)
 
 release: dist
-	@if test -z "$(KEYID)"; then \
-		echo "Try this instead:"; \
-		echo "  make release KEYID=[PGPKEYID]"; \
-		echo "For example:"; \
-		echo "  make release KEYID=2117364A"; \
-		exit 1; \
-	fi
 	@head -1 NEWS | grep -q "Version $(VERSION) (released `date -I`)" || \
                 (echo 'error: You need to update date/version in NEWS'; exit 1)
-	@if test ! -d "$(YUBICO_GITHUB_REPO)"; then \
-		echo "yubico.github.com repo not found!"; \
-		echo "Make sure that YUBICO_GITHUB_REPO is set"; \
+	@if test ! -d "$(YUBICO_WWW_REPO)"; then \
+		echo "yubico www repo not found!"; \
+		echo "Make sure that YUBICO_WWW_REPO is set"; \
 		exit 1; \
 	fi
-	gpg --detach-sign --default-key $(KEYID) $(PACKAGE)-$(VERSION).tgz
+	gpg --detach-sign $(PACKAGE)-$(VERSION).tgz
 	gpg --verify $(PACKAGE)-$(VERSION).tgz.sig
-	git tag -u $(KEYID) -m "$(PACKAGE)-$(VERSION)" $(PACKAGE)-$(VERSION)
-	$(YUBICO_GITHUB_REPO)/publish $(PROJECT) $(VERSION) $(PACKAGE)-$(VERSION).tgz*
+	git tag -s -m "$(PACKAGE) $(VERSION)" $(PACKAGE)-$(VERSION)
+	$(YUBICO_WWW_REPO)/publish $(PROJECT) $(VERSION) $(PACKAGE)-$(VERSION).tgz*
 	@echo "Release created and tagged, remember to git push && git push --tags"
