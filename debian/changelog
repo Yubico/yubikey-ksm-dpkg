@@ -3,6 +3,7 @@ yubikey-ksm (1.15-1) unstable; urgency=low
   * New upstream version.
   * Update URLs, email addresses and links.
   * Update Standards-Version to 3.9.6.
+  * Fix watch and add upstream-signing-key.pgp.
 
  -- Simon Josefsson <simon@josefsson.org>  Tue, 30 Sep 2014 21:49:53 +0200
 
