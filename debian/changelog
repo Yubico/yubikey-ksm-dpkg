@@ -1,3 +1,10 @@
+yubikey-ksm (1.15-3) unstable; urgency=low
+
+  * Update URL in watch file.
+  * Update README.source.
+
+ -- Simon Josefsson <simon@josefsson.org>  Tue, 12 May 2015 22:58:49 +0200
+
 yubikey-ksm (1.15-2) unstable; urgency=low
 
   [ Dain Nilsson ]
