@@ -1,5 +1,6 @@
 yubikey-ksm (1.15-3) unstable; urgency=low
 
+  * Add gbp.conf.
   * Update URL in watch file.
   * Update README.source.
 
