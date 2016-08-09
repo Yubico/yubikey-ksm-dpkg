@@ -2,6 +2,7 @@ yubikey-ksm (1.15-5) unstable; urgency=low
 
   * Use https URLs in Vcs-Git.
   * Update Standards-Version from 3.9.6 to 3.9.8.
+  * Attempt to support PHP 7.  Closes: #821669.
 
  -- Simon Josefsson <simon@josefsson.org>  Tue, 09 Aug 2016 16:12:00 +0200
 

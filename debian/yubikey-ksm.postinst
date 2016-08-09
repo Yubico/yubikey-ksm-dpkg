@@ -5,6 +5,20 @@ set -e
 . /usr/share/debconf/confmodule
 . /usr/share/dbconfig-common/dpkg/postinst
 
+# https://www.debian.org/doc/manuals/developers-reference/ch06.en.html#bpp-debian-maint-scripts
+pathfind() {
+    OLDIFS="$IFS"
+    IFS=:
+    for p in $PATH; do
+        if [ -x "$p/$*" ]; then
+            IFS="$OLDIFS"
+            return 0
+        fi
+    done
+    IFS="$OLDIFS"
+    return 1
+}
+
 php_cf="/etc/yubico/ksm/config-db.php"
 cfg_cf="/etc/yubico/ksm/config-db.cfg"
 
@@ -32,7 +46,11 @@ chmod $dbc_generate_include_perms $cfg_cf
 ) > $cfg_cf
 
 #Enable mcrypt
-php5enmod mcrypt 3>/dev/null || true
+if pathfind phpenmod; then
+    phpenmod mcrypt 3>/dev/null || true
+else
+    php5enmod mcrypt 3>/dev/null || true
+fi
 
 #Apache configuration
 if [ "$1" = "configure" ] ; then
@@ -53,7 +71,7 @@ if [ "$1" = "configure" ] ; then
     fi
 
     if [ -f /etc/init.d/apache2 ] ; then
-        if [ -x /usr/sbin/invoke-rc.d ]; then
+        if pathfind invoke-rc.d; then
             invoke-rc.d apache2 reload 3>/dev/null || true
         else
             /etc/init.d/apache2 reload 3>/dev/null || true

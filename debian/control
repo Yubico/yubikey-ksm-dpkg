@@ -13,10 +13,10 @@ Package: yubikey-ksm
 Architecture: all
 Depends: ${misc:Depends},
 	 apache2,
-	 php5,
-	 php5-mcrypt,
+	 php | php5,
+	 php-mcrypt | php5-mcrypt,
 	 mysql-server | postgresql,
-	 php5-mysql | php5-pgsql,
+	 php-mysql | php-pgsql | php5-mysql | php5-pgsql,
 	 dbconfig-common,
 	 libdbi-perl
 Recommends: mysql-client | postgresql-client
